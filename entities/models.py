@@ -16,11 +16,6 @@ class PollAnswer(models.Model):
     users = models.ManyToManyField(User)
 
 
-class Vote(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    answer = models.ForeignKey(PollAnswer, on_delete=models.CASCADE)
-
-
 class Tag(models.Model):
     name = models.CharField(max_length=100)
     color = models.CharField(max_length=24)
