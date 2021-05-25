@@ -1,13 +1,45 @@
 <!doctype html>
 <html lang="en">
 <head>
+    {% load static %}
     <meta charset="UTF-8">
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="{% static '/css/materialize.min.css' %}">
+    <link rel="stylesheet" href="{% static '/css/base.css' %}">
+    <link rel="icon" type="image/png" href="{% static 'bp_logo.png' %}" sizes="96x96">
     <title>Bosch Polls</title>
+
+    <style>
+        root {
+            --primary: rgb(0, 0, 0);
+        }
+    </style>
 </head>
 <body>
 
+<nav>
+    <div class="nav-wrapper">
+        <a href="" class="brand-logo">
+            <img src="{% static 'bp_logo.png' %}" class="brand-logo" alt="logo">
+            <p style="display: inline; margin-left: var(--padding-title); color: black">Bosch Polls</p>
+        </a>
+        <ul id="nav-mobile" class="right hide-on-med-and-down">
+            <li><a href="" class="waves-effect waves-red btn-flat">Log in</a></li>
+            <li><a href="" class="waves-effect waves-light btn primary">Sign up</a></li>
+        </ul>
+    </div>
+</nav>
+<main>
+    {% block content %}
+    {% endblock %}
+</main>
+<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+<script src="{% static '/js/materialize.min.js' %}">
+</script>
 </body>
 </html>
