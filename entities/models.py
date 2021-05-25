@@ -13,6 +13,7 @@ class Poll(models.Model):
 class PollAnswer(models.Model):
     answer = models.TextField(max_length=240)
     poll = models.ForeignKey(Poll, on_delete=models.CASCADE)
+    users = models.ManyToManyField(User)
 
 
 class Vote(models.Model):
