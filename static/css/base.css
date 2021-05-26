@@ -31,9 +31,9 @@ body {
     --color-c8: #0054A0;
     --color-c8-text: #FFF;
     --color-c9: #1D6EB0;
-    --color-c9-text: #000;
+    --color-c9-text: #FFF;
     --color-c10: #308CBD;
-    --color-c10-text: #000;
+    --color-c10-text: #FFF;
     --color-c11: #4DAFBF;
     --color-c11-text: #000;
     --color-c12: #00A07C;
@@ -43,7 +43,7 @@ body {
     --color-c14: #1DA34A;
     --color-c14-text: #000;
     --color-c15: #209049;
-    --color-c15-text: #000;
+    --color-c15-text: #FFF;
 }
 
 body {

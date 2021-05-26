@@ -19,76 +19,23 @@
         </div>
     </form>
     <div class="row">
-        <div class="card col s10 c1-card">
+        {% for poll in polls %}
+        {% with forloop.counter as index %}
+        <div class="card col s10 c{{poll.color_index}}-card">
             <div class="card-header">
-                <h5>Question of this card?</h5>
-                <strong>1.629 Votes</strong>
+                <h5>{{poll.question}}</h5>
+                <strong>{{poll.votes}} Vote{% if poll.votes != 1 %}s{% endif %}</strong>
             </div>
             <div class="tag-holder">
-                <div class="chip c1">
-                    Fundamental
+                {% for tag in poll.tags %}
+                <div class="chip c{{tag.color}}">
+                    {{tag.name}}
                 </div>
-                <div class="chip c2">
-                    Technical
-                </div>
+                {% endfor %}
             </div>
         </div>
-        <div class="card col s10 c2-card">
-            <div class="card-header">
-                <h5>Question of this card?</h5>
-                <strong>1.629 Votes</strong>
-            </div>
-            <div class="tag-holder">
-                <div class="chip c2">
-                    Fundamental
-                </div>
-                <div class="chip c3">
-                    Technical
-                </div>
-            </div>
-        </div>
-        <div class="card col s10 c3-card">
-            <div class="card-header">
-                <h5>Question of this card?</h5>
-                <strong>1.629 Votes</strong>
-            </div>
-            <div class="tag-holder">
-                <div class="chip c3">
-                    Fundamental
-                </div>
-                <div class="chip c4">
-                    Technical
-                </div>
-            </div>
-        </div>
-        <div class="card col s10 c4-card">
-            <div class="card-header">
-                <h5>Question of this card?</h5>
-                <strong>1.629 Votes</strong>
-            </div>
-            <div class="tag-holder">
-                <div class="chip c4">
-                    Fundamental
-                </div>
-                <div class="chip c5">
-                    Technical
-                </div>
-            </div>
-        </div>
-        <div class="card col s10 c5-card">
-            <div class="card-header">
-                <h5>Question of this card?</h5>
-                <strong>1.629 Votes</strong>
-            </div>
-            <div class="tag-holder">
-                <div class="chip c5">
-                    Fundamental
-                </div>
-                <div class="chip c6">
-                    Technical
-                </div>
-            </div>
-        </div>
+        {% endwith %}
+        {% endfor %}
     </div>
 </div>
 {% endblock %}

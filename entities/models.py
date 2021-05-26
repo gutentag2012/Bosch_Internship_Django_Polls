@@ -13,10 +13,10 @@ class Poll(models.Model):
 class PollAnswer(models.Model):
     answer = models.TextField(max_length=240)
     poll = models.ForeignKey(Poll, on_delete=models.CASCADE)
-    users = models.ManyToManyField(User)
+    users = models.ManyToManyField(User, blank=True, null=True)
 
 
 class Tag(models.Model):
     name = models.CharField(max_length=100)
-    color = models.CharField(max_length=24)
-    polls = models.ManyToManyField(Poll)
+    color = models.IntegerField()
+    polls = models.ManyToManyField(Poll, blank=True, null=True)
