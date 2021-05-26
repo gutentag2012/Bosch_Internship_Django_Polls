@@ -4,6 +4,8 @@ body {
     --space-small: 8px;
     --space-large: 16px;
     --padding-title: 72px;
+    --dist-card-move: 30px;
+    --border-width: 2px;
 
     --color-on-background: #000;
     --color-on-primary: #FFF;
@@ -16,6 +18,32 @@ body {
     --color-c1-text: #FFF;
     --color-c2: #AF1E23;
     --color-c2-text: #FFF;
+    --color-c3: #DA2128;
+    --color-c3-text: #FFF;
+    --color-c4: #8B2F5B;
+    --color-c4-text: #FFF;
+    --color-c5: #843C87;
+    --color-c5-text: #FFF;
+    --color-c6: #50479A;
+    --color-c6-text: #FFF;
+    --color-c7: #23408A;
+    --color-c7-text: #FFF;
+    --color-c8: #0054A0;
+    --color-c8-text: #FFF;
+    --color-c9: #1D6EB0;
+    --color-c9-text: #000;
+    --color-c10: #308CBD;
+    --color-c10-text: #000;
+    --color-c11: #4DAFBF;
+    --color-c11-text: #000;
+    --color-c12: #00A07C;
+    --color-c12-text: #000;
+    --color-c13: #7CBE7E;
+    --color-c13-text: #000;
+    --color-c14: #1DA34A;
+    --color-c14-text: #000;
+    --color-c15: #209049;
+    --color-c15-text: #000;
 }
 
 body {
@@ -41,23 +69,134 @@ nav {
     background-color: var(--color-c1) !important;
 }
 
-.c1-card {
-    -webkit-transition: all 0.2s ease-in-out;
-    transition: all 0.2s ease-in-out;
-    border: transparent solid 2px;
-}
-
 .c1-card:hover {
-    cursor: pointer;
-    -webkit-transition: all 0.2s ease-in-out;
-    transition: all 0.2s ease-in-out;
-    transform: translateX(30px);
-    border: var(--color-c1) solid 2px;
+    border: var(--color-c1) solid var(--border-width);
 }
 
 .c2 {
     color: var(--color-c2-text);
     background-color: var(--color-c2) !important;
+}
+
+.c2-card:hover {
+    border: var(--color-c2) solid var(--border-width);
+}
+
+.c3 {
+    color: var(--color-c3-text);
+    background-color: var(--color-c3) !important;
+}
+
+.c3-card:hover {
+    border: var(--color-c3) solid var(--border-width);
+}
+
+.c4 {
+    color: var(--color-c4-text);
+    background-color: var(--color-c4) !important;
+}
+
+.c4-card:hover {
+    border: var(--color-c4) solid var(--border-width);
+}
+
+.c5 {
+    color: var(--color-c5-text);
+    background-color: var(--color-c5) !important;
+}
+
+.c5-card:hover {
+    border: var(--color-c5) solid var(--border-width);
+}
+
+.c6 {
+    color: var(--color-c6-text);
+    background-color: var(--color-c6) !important;
+}
+
+.c6-card:hover {
+    border: var(--color-c6) solid var(--border-width);
+}
+
+.c7 {
+    color: var(--color-c7-text);
+    background-color: var(--color-c7) !important;
+}
+
+.c7-card:hover {
+    border: var(--color-c7) solid var(--border-width);
+}
+
+.c8 {
+    color: var(--color-c8-text);
+    background-color: var(--color-c8) !important;
+}
+
+.c8-card:hover {
+    border: var(--color-c8) solid var(--border-width);
+}
+
+.c9 {
+    color: var(--color-c9-text);
+    background-color: var(--color-c9) !important;
+}
+
+.c9-card:hover {
+    border: var(--color-c9) solid var(--border-width);
+}
+
+.c10 {
+    color: var(--color-c10-text);
+    background-color: var(--color-c10) !important;
+}
+
+.c10-card:hover {
+    border: var(--color-c10) solid var(--border-width);
+}
+
+.c11 {
+    color: var(--color-c11-text);
+    background-color: var(--color-c11) !important;
+}
+
+.c11-card:hover {
+    border: var(--color-c11) solid var(--border-width);
+}
+
+.c12 {
+    color: var(--color-c12-text);
+    background-color: var(--color-c12) !important;
+}
+
+.c12-card:hover {
+    border: var(--color-c12) solid var(--border-width);
+}
+
+.c13 {
+    color: var(--color-c13-text);
+    background-color: var(--color-c13) !important;
+}
+
+.c13-card:hover {
+    border: var(--color-c13) solid var(--border-width);
+}
+
+.c14 {
+    color: var(--color-c14-text);
+    background-color: var(--color-c14) !important;
+}
+
+.c14-card:hover {
+    border: var(--color-c14) solid var(--border-width);
+}
+
+.c15 {
+    color: var(--color-c15-text);
+    background-color: var(--color-c15) !important;
+}
+
+.c15-card:hover {
+    border: var(--color-c15) solid var(--border-width);
 }
 
 .text-primary {
@@ -74,6 +213,16 @@ nav {
 
 .card {
     padding: var(--space-large) !important;
+    -webkit-transition: all 0.2s ease-in-out;
+    transition: all 0.2s ease-in-out;
+    border: transparent solid var(--border-width);
+}
+
+.card:hover {
+    cursor: pointer;
+    -webkit-transition: all 0.2s ease-in-out;
+    transition: all 0.2s ease-in-out;
+    transform: translateX(var(--dist-card-move));
 }
 
 .card-header {
