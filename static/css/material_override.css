@@ -1,0 +1,138 @@
+input:not([type]).valid ~ .helper-text:after,
+input:not([type]):focus.valid ~ .helper-text:after,
+input[type=text]:not(.browser-default).valid ~ .helper-text:after,
+input[type=text]:not(.browser-default):focus.valid ~ .helper-text:after,
+input[type=password]:not(.browser-default).valid ~ .helper-text:after,
+input[type=password]:not(.browser-default):focus.valid ~ .helper-text:after,
+input[type=email]:not(.browser-default).valid ~ .helper-text:after,
+input[type=email]:not(.browser-default):focus.valid ~ .helper-text:after,
+input[type=url]:not(.browser-default).valid ~ .helper-text:after,
+input[type=url]:not(.browser-default):focus.valid ~ .helper-text:after,
+input[type=time]:not(.browser-default).valid ~ .helper-text:after,
+input[type=time]:not(.browser-default):focus.valid ~ .helper-text:after,
+input[type=date]:not(.browser-default).valid ~ .helper-text:after,
+input[type=date]:not(.browser-default):focus.valid ~ .helper-text:after,
+input[type=datetime]:not(.browser-default).valid ~ .helper-text:after,
+input[type=datetime]:not(.browser-default):focus.valid ~ .helper-text:after,
+input[type=datetime-local]:not(.browser-default).valid ~ .helper-text:after,
+input[type=datetime-local]:not(.browser-default):focus.valid ~ .helper-text:after,
+input[type=tel]:not(.browser-default).valid ~ .helper-text:after,
+input[type=tel]:not(.browser-default):focus.valid ~ .helper-text:after,
+input[type=number]:not(.browser-default).valid ~ .helper-text:after,
+input[type=number]:not(.browser-default):focus.valid ~ .helper-text:after,
+input[type=search]:not(.browser-default).valid ~ .helper-text:after,
+input[type=search]:not(.browser-default):focus.valid ~ .helper-text:after,
+textarea.materialize-textarea.valid ~ .helper-text:after,
+textarea.materialize-textarea:focus.valid ~ .helper-text:after, .select-wrapper.valid ~ .helper-text:after {
+  content: attr(data-success);
+  color: var(--color-primary);
+}
+
+input:not([type]):focus:not([readonly]),
+input[type=text]:not(.browser-default):focus:not([readonly]),
+input[type=password]:not(.browser-default):focus:not([readonly]),
+input[type=email]:not(.browser-default):focus:not([readonly]),
+input[type=url]:not(.browser-default):focus:not([readonly]),
+input[type=time]:not(.browser-default):focus:not([readonly]),
+input[type=date]:not(.browser-default):focus:not([readonly]),
+input[type=datetime]:not(.browser-default):focus:not([readonly]),
+input[type=datetime-local]:not(.browser-default):focus:not([readonly]),
+input[type=tel]:not(.browser-default):focus:not([readonly]),
+input[type=number]:not(.browser-default):focus:not([readonly]),
+input[type=search]:not(.browser-default):focus:not([readonly]),
+textarea.materialize-textarea:focus:not([readonly]) {
+  border-bottom: 1px solid var(--color-primary);
+  -webkit-box-shadow: 0 1px 0 0 var(--color-primary);
+          box-shadow: 0 1px 0 0 var(--color-primary);
+}
+
+input:not([type]):focus:not([readonly]) + label,
+input[type=text]:not(.browser-default):focus:not([readonly]) + label,
+input[type=password]:not(.browser-default):focus:not([readonly]) + label,
+input[type=email]:not(.browser-default):focus:not([readonly]) + label,
+input[type=url]:not(.browser-default):focus:not([readonly]) + label,
+input[type=time]:not(.browser-default):focus:not([readonly]) + label,
+input[type=date]:not(.browser-default):focus:not([readonly]) + label,
+input[type=datetime]:not(.browser-default):focus:not([readonly]) + label,
+input[type=datetime-local]:not(.browser-default):focus:not([readonly]) + label,
+input[type=tel]:not(.browser-default):focus:not([readonly]) + label,
+input[type=number]:not(.browser-default):focus:not([readonly]) + label,
+input[type=search]:not(.browser-default):focus:not([readonly]) + label,
+textarea.materialize-textarea:focus:not([readonly]) + label {
+  color: var(--color-primary);
+}
+
+input:not([type]):focus.valid ~ label,
+input[type=text]:not(.browser-default):focus.valid ~ label,
+input[type=password]:not(.browser-default):focus.valid ~ label,
+input[type=email]:not(.browser-default):focus.valid ~ label,
+input[type=url]:not(.browser-default):focus.valid ~ label,
+input[type=time]:not(.browser-default):focus.valid ~ label,
+input[type=date]:not(.browser-default):focus.valid ~ label,
+input[type=datetime]:not(.browser-default):focus.valid ~ label,
+input[type=datetime-local]:not(.browser-default):focus.valid ~ label,
+input[type=tel]:not(.browser-default):focus.valid ~ label,
+input[type=number]:not(.browser-default):focus.valid ~ label,
+input[type=search]:not(.browser-default):focus.valid ~ label,
+textarea.materialize-textarea:focus.valid ~ label {
+  color: var(--color-on-background);
+}
+/* Validation Sass Placeholders */
+input.valid:not([type]), input.valid:not([type]):focus,
+input.valid[type=text]:not(.browser-default),
+input.valid[type=text]:not(.browser-default):focus,
+input.valid[type=password]:not(.browser-default),
+input.valid[type=password]:not(.browser-default):focus,
+input.valid[type=email]:not(.browser-default),
+input.valid[type=email]:not(.browser-default):focus,
+input.valid[type=url]:not(.browser-default),
+input.valid[type=url]:not(.browser-default):focus,
+input.valid[type=time]:not(.browser-default),
+input.valid[type=time]:not(.browser-default):focus,
+input.valid[type=date]:not(.browser-default),
+input.valid[type=date]:not(.browser-default):focus,
+input.valid[type=datetime]:not(.browser-default),
+input.valid[type=datetime]:not(.browser-default):focus,
+input.valid[type=datetime-local]:not(.browser-default),
+input.valid[type=datetime-local]:not(.browser-default):focus,
+input.valid[type=tel]:not(.browser-default),
+input.valid[type=tel]:not(.browser-default):focus,
+input.valid[type=number]:not(.browser-default),
+input.valid[type=number]:not(.browser-default):focus,
+input.valid[type=search]:not(.browser-default),
+input.valid[type=search]:not(.browser-default):focus,
+textarea.materialize-textarea.valid,
+textarea.materialize-textarea.valid:focus, .select-wrapper.valid > input.select-dropdown {
+  border-bottom: 1px solid var(--color-on-background);
+  -webkit-box-shadow: 0 1px 0 0 var(--color-on-background);
+          box-shadow: 0 1px 0 0 var(--color-on-background);
+}
+input:not([type]).valid ~ .helper-text:after,
+input:not([type]):focus.valid ~ .helper-text:after,
+input[type=text]:not(.browser-default).valid ~ .helper-text:after,
+input[type=text]:not(.browser-default):focus.valid ~ .helper-text:after,
+input[type=password]:not(.browser-default).valid ~ .helper-text:after,
+input[type=password]:not(.browser-default):focus.valid ~ .helper-text:after,
+input[type=email]:not(.browser-default).valid ~ .helper-text:after,
+input[type=email]:not(.browser-default):focus.valid ~ .helper-text:after,
+input[type=url]:not(.browser-default).valid ~ .helper-text:after,
+input[type=url]:not(.browser-default):focus.valid ~ .helper-text:after,
+input[type=time]:not(.browser-default).valid ~ .helper-text:after,
+input[type=time]:not(.browser-default):focus.valid ~ .helper-text:after,
+input[type=date]:not(.browser-default).valid ~ .helper-text:after,
+input[type=date]:not(.browser-default):focus.valid ~ .helper-text:after,
+input[type=datetime]:not(.browser-default).valid ~ .helper-text:after,
+input[type=datetime]:not(.browser-default):focus.valid ~ .helper-text:after,
+input[type=datetime-local]:not(.browser-default).valid ~ .helper-text:after,
+input[type=datetime-local]:not(.browser-default):focus.valid ~ .helper-text:after,
+input[type=tel]:not(.browser-default).valid ~ .helper-text:after,
+input[type=tel]:not(.browser-default):focus.valid ~ .helper-text:after,
+input[type=number]:not(.browser-default).valid ~ .helper-text:after,
+input[type=number]:not(.browser-default):focus.valid ~ .helper-text:after,
+input[type=search]:not(.browser-default).valid ~ .helper-text:after,
+input[type=search]:not(.browser-default):focus.valid ~ .helper-text:after,
+textarea.materialize-textarea.valid ~ .helper-text:after,
+textarea.materialize-textarea:focus.valid ~ .helper-text:after, .select-wrapper.valid ~ .helper-text:after {
+  content: attr(data-success);
+  color: var(--color-on-background);
+}

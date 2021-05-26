@@ -1,5 +1,38 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h1>Hello World!</h1>
+<div class="container">
+    <h3>Discover our <strong class="text-primary">Polls</strong>.</h3>
+    <form class="search-bar">
+        <div class="row">
+            <div class="input-field col s8">
+                <input id="icon_prefix" type="text" placeholder="Search for polls..." class="validate">
+                <label for="icon_prefix">Search</label>
+            </div>
+            <a class="col s1 waves-effect waves-primary btn-flat">
+                <i class="material-icons left">filter_list</i>
+                Filter
+            </a>
+            <a class="col s1 waves-effect waves-light btn primary">
+                Search
+            </a>
+        </div>
+    </form>
+    <div class="row">
+        <div class="card col s10 c1-card">
+            <div class="card-header">
+                <h5>Question of this card?</h5>
+                <strong>1.629 Votes</strong>
+            </div>
+            <div class="tag-holder">
+                <div class="chip c1">
+                    Fundamental
+                </div>
+                <div class="chip c2">
+                    Technical
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}
