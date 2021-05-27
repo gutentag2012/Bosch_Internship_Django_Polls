@@ -1,6 +1,14 @@
 from django.shortcuts import render
-from entities.models import Poll
-import datetime
+from django.http import Http404
+from entities.models import Poll, PollAnswer
+
+
+def get_object_or_404(holder, pk):
+    try:
+        element = holder.objects.get(pk=pk)
+    except holder.DoesNotExist:
+        raise Http404("Poll does not exist!")
+    return element
 
 
 def home_page_view(request):
@@ -23,17 +31,30 @@ def home_page_view(request):
 
 def single_poll_view(request, poll_id):
     vote = request.POST.get("vote")
+    error = None
 
-    poll = Poll.objects.get(id=poll_id)
+    if vote and not request.user.is_authenticated:
+        vote = None
+        error = "You need to log in in order to vote!"
+
+    print(error)
+
+    poll = get_object_or_404(Poll, pk=poll_id)
+    poll_answer = poll.pollanswer_set.filter(users__id=request.user.id)
+    print(poll_answer)
+
     context = {
         "poll": {
             "question": poll.question,
             "username": poll.user.username,
+            "tags": poll.get_tags(),
             "start_date": poll.start_date.strftime('%d.%m.%Y'),
             "votes": poll.count_votes() if vote else 0,
             "answers": []
         },
-        "voted": True if vote else False,
+        "not_voted": False if vote else True,
+        "is_error": True if error else False,
+        "msg_error": error
     }
 
     i = 0

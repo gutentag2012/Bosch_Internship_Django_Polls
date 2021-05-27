@@ -15,6 +15,8 @@ html {
     --color-on-background: #000;
     --color-surface: #FFF;
     --color-background: #F5F5F5;
+    --color-error: #aa0007;
+    --color-on-error: #FFF;
     --color-primary: #DA2128;
     --color-primary-ripple: rgba(218, 33, 40, 0.7);
 }
@@ -63,6 +65,22 @@ nav {
     flex-direction: row;
 }
 
+.error {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    background-color: var(--color-error) !important;
+}
+
+.error h6 {
+    margin: 0 0 0 var(--space-large) !important;
+    color: var(--color-on-error) !important;
+}
+
+.error i {
+    color: var(--color-on-error);
+}
+
 .card {
     padding: var(--space-large) !important;
     -webkit-transition: all 0.2s ease-in-out;
@@ -108,4 +126,20 @@ nav {
     align-items: center;
     flex-direction: row;
     justify-content: center;
+}
+
+#logo-text {
+    display: none;
+    margin-left: var(--padding-title);
+}
+
+@media only screen and (min-width: 615px) {
+    .brand-logo img {
+        position: absolute;
+        transform: translateX(0px);
+    }
+
+    #logo-text {
+        display: inline;
+    }
 }

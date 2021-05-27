@@ -1,7 +1,13 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="container">
+<div class="container" style="padding-top: var(--space-large)">
+    {% if is_error %}
+    <div class="card error">
+        <i class="material-icons">error</i>
+        <h6>{{msg_error}}</h6>
+    </div>
+    {% endif %}
     <div class="tag-holder">
         {% for tag in poll.tags %}
         <div class="chip c{{tag.color}}">
@@ -23,7 +29,7 @@
         <form id="answer_form" method="post">
             {% csrf_token %}
             {% for answer in poll.answers %}
-            <div onclick="submitAnswer({{answer.id}})" class="card col c{{answer.color_index}}-card {% if answer.is_voted %}c{{answer.color_index}}-card-active card-active{% endif %}"
+            <div {% if not_voted %} onclick="submitAnswer({{answer.id}})" {% endif %} class="card col c{{answer.color_index}}-card {% if answer.is_voted %}c{{answer.color_index}}-card-active card-active{% endif %}"
                  style="width: 100%">
                 <div class="card-header">
                     <h5>{{answer.content}}</h5>
