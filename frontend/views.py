@@ -3,27 +3,17 @@ from entities.models import Poll
 
 
 def home_page_view(request):
-    poll_objs = Poll.objects.all()
-    polls = []
+    search_term = request.GET.get("search") or ""
+    print(search_term)
+    poll_objs = Poll.objects.filter(question__icontains=search_term)
+    context = {"polls": [], "search_term": search_term}
+
     for i, item in enumerate(poll_objs):
-        answer_objs = item.pollanswer_set.all()
-        votes = 0
-        for answer in answer_objs:
-            votes += answer.users.all().count()
-
-        tag_objs = item.tag_set.all()
-        tags = []
-
-        for tag in tag_objs:
-            tags.append({
-                "name": tag.name,
-                "color": tag.color % 15 + 1
-            })
-
-        polls.append({
+        context["polls"].append({
             "color_index": i % 15 + 1,
             "question": item.question,
-            "tags": tags,
-            "votes": votes
+            "tags": item.get_tags(),
+            "votes": item.count_votes()
         })
-    return render(request, "home.html", {"polls": polls})
+
+    return render(request, "home.html", context)

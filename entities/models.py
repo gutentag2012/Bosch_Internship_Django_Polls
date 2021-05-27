@@ -9,6 +9,23 @@ class Poll(models.Model):
     start_date = models.DateField(default=datetime.now)
     end_date = models.DateField(null=True, blank=True)
 
+    def get_tags(self):
+        tag_objs = self.tag_set.all()
+        tags = []
+        for tag in tag_objs:
+            tags.append({
+                "name": tag.name,
+                "color": tag.color % 15 + 1
+            })
+        return tags
+
+    def count_votes(self):
+        answer_objs = self.pollanswer_set.all()
+        votes = 0
+        for answer in answer_objs:
+            votes += answer.users.all().count()
+        return votes
+
 
 class PollAnswer(models.Model):
     answer = models.TextField(max_length=240)

@@ -3,19 +3,20 @@
 {% block content %}
 <div class="container">
     <h3>Discover our <strong class="text-primary">Polls</strong>.</h3>
-    <form class="search-bar">
+    <form class="search-bar" method="get">
         <div class="row">
             <div class="input-field col s8">
-                <input id="icon_prefix" type="text" placeholder="Search for polls..." class="validate">
+                <input id="icon_prefix" type="text" autofocus placeholder="Search for polls..." name="search"
+                       value="{{search_term}}">
                 <label for="icon_prefix">Search</label>
             </div>
-            <a class="col s1 waves-effect waves-primary btn-flat">
-                <i class="material-icons left">filter_list</i>
+            <a class="col waves-effect waves-primary btn-flat">
+                <i class="material-icons right">filter_list</i>
                 Filter
             </a>
-            <a class="col s1 waves-effect waves-light btn primary">
+            <button class="col s1 waves-effect waves-light btn primary" type="submit" value="search">
                 Search
-            </a>
+            </button>
         </div>
     </form>
     <div class="row">

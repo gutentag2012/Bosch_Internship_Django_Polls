@@ -64,6 +64,8 @@ nav {
     background-color: var(--color-primary) !important;
 }
 
+/* #region */
+
 .c1 {
     color: var(--color-c1-text);
     background-color: var(--color-c1) !important;
@@ -199,6 +201,8 @@ nav {
     border: var(--color-c15) solid var(--border-width);
 }
 
+/* #endregion */
+
 .text-primary {
     color: var(--color-primary) !important;
 }
@@ -207,7 +211,7 @@ nav {
     background-color: var(--color-primary-ripple);
 }
 
-.search-bar a {
+.search-bar a,button {
     margin: var(--space-small);
 }
 
