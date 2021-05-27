@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <h3>Discover our <strong class="text-primary">Polls</strong>.</h3>
+    <form class="row search-bar" method="get">
+            <div class="input-field col" style="width: 80%; margin-right: auto;">
+                <a href="." class="prefix" style="right: 0; transform: translateY(-10px)"><i class="material-icons">clear</i></a>
+                <input style="width: 94%" id="icon_prefix" type="text" autofocus placeholder="Search for polls..."
+                       name="search"
+                       value="{{search_term}}">
+                <label for="icon_prefix">Search</label>
+            </div>
+            <a class="col waves-effect waves-primary btn-flat">
+                <i class="material-icons right">filter_list</i>
+                Filter
+            </a>
+            <button class="col waves-effect waves-light btn primary" type="submit" value="search">
+                Search
+            </button>
+    </form>
+    <div class="row">
+        {% for poll in polls %}
+        <a href="/polls/{{poll.id}}">
+            <div class="card col c{{poll.color_index}}-card" style="width: 100%">
+                <div class="card-header">
+                    <h5>{{poll.question}}</h5>
+                    <strong>{{poll.votes}} Vote{% if poll.votes != 1 %}s{% endif %}</strong>
+                </div>
+                <div class="tag-holder">
+                    {% for tag in poll.tags %}
+                    <div class="chip c{{tag.color}}">
+                        {{tag.name}}
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </a>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

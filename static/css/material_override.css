@@ -136,3 +136,16 @@ textarea.materialize-textarea:focus.valid ~ .helper-text:after, .select-wrapper.
   content: attr(data-success);
   color: var(--color-on-background);
 }
+
+.input-field .prefix ~ input,
+.input-field .prefix ~ textarea,
+.input-field .prefix ~ label,
+.input-field .prefix ~ .validate ~ label,
+.input-field .prefix ~ .helper-text,
+.input-field .prefix ~ .autocomplete-content {
+  margin-left: 0;
+  width: 100%;
+}
+.input-field .prefix ~ label {
+  margin-left: 0;
+}

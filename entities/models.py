@@ -10,9 +10,8 @@ class Poll(models.Model):
     end_date = models.DateField(null=True, blank=True)
 
     def get_tags(self):
-        tag_objs = self.tag_set.all()
         tags = []
-        for tag in tag_objs:
+        for tag in self.tag_set.all():
             tags.append({
                 "name": tag.name,
                 "color": tag.color % 15 + 1
@@ -20,17 +19,16 @@ class Poll(models.Model):
         return tags
 
     def count_votes(self):
-        answer_objs = self.pollanswer_set.all()
-        votes = 0
-        for answer in answer_objs:
-            votes += answer.users.all().count()
-        return votes
+        return sum(map(lambda e: e.count_votes(), self.pollanswer_set.all()))
 
 
 class PollAnswer(models.Model):
     answer = models.TextField(max_length=240)
     poll = models.ForeignKey(Poll, on_delete=models.CASCADE)
     users = models.ManyToManyField(User, blank=True, null=True)
+
+    def count_votes(self):
+        return self.users.all().count()
 
 
 class Tag(models.Model):

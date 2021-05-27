@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <div class="tag-holder">
+        {% for tag in poll.tags %}
+        <div class="chip c{{tag.color}}">
+            {{tag.name}}
+        </div>
+        {% endfor %}
+    </div>
+    <form method="get" class="header-container">
+        <div>
+            <h3>{{poll.question}}</h3>
+            <p>by {{poll.username}} from {{poll.start_date}}</p>
+        </div>
+        <a class="col waves-effect waves-light btn-flat center-row" href="../../">
+            <i class="material-icons">keyboard_arrow_left</i>
+            Back
+        </a>
+    </form>
+    <div class="row">
+        <form id="answer_form" method="post">
+            {% csrf_token %}
+            {% for answer in poll.answers %}
+            <div onclick="submitAnswer({{answer.id}})" class="card col c{{answer.color_index}}-card {% if answer.is_voted %}c{{answer.color_index}}-card-active card-active{% endif %}"
+                 style="width: 100%">
+                <div class="card-header">
+                    <h5>{{answer.content}}</h5>
+                    <h4 class="c{{answer.color_index}}-text">{{answer.votes_percent|floatformat:-2}}%</h4>
+                </div>
+                <div class="progress c{{answer.color_index}}-lighter">
+                    <div class="determinate c{{answer.color_index}}" style="width: {{answer.votes_percent}}%"></div>
+                </div>
+                <p>{{answer.votes}} Vote{% if answer.votes != 1 %}s{% endif %}</p>
+            </div>
+            {% endfor %}
+        </form>
+        <script>
+            const answer_form = document.getElementById("answer_form")
+
+            function submitAnswer(answer_id) {
+                post({"vote": answer_id})
+            }
+
+            function post(params) {
+                for (const key in params) {
+                    if (params.hasOwnProperty(key)) {
+                        const hiddenField = document.createElement('input');
+                        hiddenField.type = 'hidden';
+                        hiddenField.name = key;
+                        hiddenField.value = params[key];
+
+                        answer_form.appendChild(hiddenField);
+                    }
+                }
+                answer_form.submit();
+            }
+        </script>
+    </div>
+</div>
+{% endblock %}
