@@ -5,7 +5,7 @@
     <h3>Discover our <strong class="text-primary">Polls</strong>.</h3>
     <form class="search-bar" method="get">
         <div class="row">
-            <div class="input-field col s8">
+            <div class="input-field col" style="width: 80%; margin-right: auto">
                 <input id="icon_prefix" type="text" autofocus placeholder="Search for polls..." name="search"
                        value="{{search_term}}">
                 <label for="icon_prefix">Search</label>
@@ -14,7 +14,7 @@
                 <i class="material-icons right">filter_list</i>
                 Filter
             </a>
-            <button class="col s1 waves-effect waves-light btn primary" type="submit" value="search">
+            <button class="col waves-effect waves-light btn primary" type="submit" value="search">
                 Search
             </button>
         </div>
@@ -22,7 +22,7 @@
     <div class="row">
         {% for poll in polls %}
         {% with forloop.counter as index %}
-        <div class="card col s10 c{{poll.color_index}}-card">
+        <div class="card col c{{poll.color_index}}-card" style="width: 100%">
             <div class="card-header">
                 <h5>{{poll.question}}</h5>
                 <strong>{{poll.votes}} Vote{% if poll.votes != 1 %}s{% endif %}</strong>
