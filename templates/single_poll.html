@@ -2,12 +2,6 @@
 
 {% block content %}
 <div class="container" style="padding-top: var(--space-large)">
-    {% if is_error %}
-    <div class="card error">
-        <i class="material-icons">error</i>
-        <h6>{{msg_error}}</h6>
-    </div>
-    {% endif %}
     <div class="tag-holder">
         {% for tag in poll.tags %}
         <div class="chip c{{tag.color}}">

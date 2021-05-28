@@ -2,24 +2,27 @@
 
 {% block content %}
 
-<script>
-  const instance = M.FloatingActionButton.getInstance(elem)
-  console.log(instance)
-</script>
-
 <div class="container-login card">
     <h3>Log in.</h3>
     <form method="post">
         {% csrf_token %}
-            <div class="input-field col">
-                <input id="username" type="text" autofocus name="username">
-                <label for="username">Username</label>
-            </div>
-            <div class="input-field col">
-                <input id="password" type="password" name="password">
-                <label for="password">Password</label>
-            </div>
+        <div class="input-field col">
+            <input id="username" type="text" autofocus name="username">
+            <label for="username">Username</label>
+        </div>
+        <div class="input-field col">
+            <input id="password" type="password" name="password">
+            <label for="password">Password</label>
+        </div>
         <button type="submit" name="submit" value="submit" class="waves-effect waves-light btn primary">Log in</button>
     </form>
 </div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const [fab] = document.getElementsByClassName("fixed-action-btn")
+    console.log(fab)
+    fab.setAttribute("style", "display:none;")
+  })
+</script>
 {% endblock %}

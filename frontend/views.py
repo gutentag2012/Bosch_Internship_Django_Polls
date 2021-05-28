@@ -1,18 +1,23 @@
-from django.shortcuts import render
-from django.http import Http404
+from django.shortcuts import render, get_object_or_404, redirect
+from django.contrib.auth import authenticate, login, logout
 from entities.models import Poll
 
 
-def get_object_or_404(holder, pk):
-    try:
-        element = holder.objects.get(pk=pk)
-    except holder.DoesNotExist:
-        raise Http404("Poll does not exist!")
-    return element
-
-
 def log_in_view(request):
-    return render(request, "login.html", {})
+    logout(request)
+    context = {}
+    if request.method == "POST":
+        username = request.POST.get("username")
+        password = request.POST.get("password")
+        user = authenticate(username=username, password=password)
+        if user is None:
+            context["is_error"] = True
+            context["msg_error"] = "Invalid username or password!"
+        else:
+            login(request, user)
+            return redirect("/")
+
+    return render(request, "login.html", context)
 
 
 def home_page_view(request):
@@ -40,8 +45,6 @@ def single_poll_view(request, poll_id):
     if not request.user.is_authenticated:
         vote = None
         error = "You need to log in in order to vote!"
-
-    print(error)
 
     poll = get_object_or_404(Poll, pk=poll_id)
     poll_answer = poll.pollanswer_set.filter(users__id=request.user.id)

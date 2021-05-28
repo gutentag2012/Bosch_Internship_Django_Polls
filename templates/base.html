@@ -55,19 +55,31 @@
 
 <nav>
     <div class="nav-wrapper">
-        <a href="" class="brand-logo">
+        <a href="/" class="brand-logo">
             <img src="{% static 'bp_logo.png' %}" alt="logo">
             <p id="logo-text">Bosch Polls</p>
         </a>
         <ul id="nav-mobile" class="right hide-on-med-and-down">
             <li><i class="material-icons waves-effect waves-primary btn-flat" onclick="toggle_dark_mode()"
                    style="color: var(--color-on-background);">brightness_medium</i></li>
+            {% if not user.is_authenticated %}
             <li><a href="/login" class="waves-effect waves-primary btn-flat">Log in</a></li>
             <li><a href="/signup" class="waves-effect waves-light btn primary">Sign up</a></li>
+            {% else %}
+            <li class="username"><span>Welcome, {{user.username}}</span><a href="/login/"><i class="material-icons">logout</i></a></li>
+            {% endif %}
         </ul>
     </div>
 </nav>
 <main>
+    <div class="container" style="padding-top: var(--space-large)">
+        {% if is_error %}
+        <div class="card error">
+            <i class="material-icons">error</i>
+            <h6>{{msg_error}}</h6>
+        </div>
+    </div>
+    {% endif %}
     {% block content %}
     {% endblock %}
 </main>
