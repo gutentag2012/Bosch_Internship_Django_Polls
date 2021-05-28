@@ -165,13 +165,17 @@ textarea.materialize-textarea:focus.valid ~ .helper-text:after, .select-wrapper.
     width: 12ch;
 }
 
-.dropdown-content.select-dropdown {
+.dropdown-content.select-dropdown, .autocomplete-content.dropdown-content {
     width: 18ch !important;
 }
-
-.dropdown-content.select-dropdown span {
+.dropdown-content.select-dropdown span, .autocomplete-content.dropdown-content span {
     color: var(--color-on-background);
     background-color: var(--color-surface);
+}
+
+.dropdown-content.select-dropdown .active span, .autocomplete-content.dropdown-content .active span {
+    color: var(--color-on-primary);
+    background-color: var(--color-primary);
 }
 
 .datepicker-calendar-container {

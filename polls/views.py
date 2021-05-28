@@ -150,6 +150,9 @@ def create_poll_view(request):
     form = PollForm()
     context["form"] = form
 
+    tag_objs = [e[0] for e in Tag.objects.values_list("name")]
+    context["all_tags"] = tag_objs
+
     context["tags"] = []
     for tag in request.POST:
         if tag.startswith("chip"):
@@ -179,6 +182,5 @@ def create_poll_view(request):
                     })
                 var.tag_set.add(tag_to_add)
             return redirect("home")
-
 
     return render(request, "create_poll.html", context)

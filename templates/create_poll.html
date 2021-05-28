@@ -42,12 +42,23 @@
                 const [chip_holder] = document.getElementsByClassName("chips")
                 let chip_count = 0;
 
-                const e = '{{ tags|escapejs }}'.replaceAll("\'", "\"");
-                const data = JSON.parse(e)
+                const django_tags = '{{ tags|escapejs }}'.replaceAll("\'", "\"");
+                const json_tags = JSON.parse(django_tags)
+
+                const django_all_tags = '{{ all_tags|escapejs }}'.replaceAll("\'", "\"");
+                const json_all_tags = JSON.parse(django_all_tags)
+                const all_tags = json_all_tags.reduce((acc, e) => {
+                    acc[e] = null
+                    return acc
+                }, {})
+
                 const elems = document.querySelectorAll('.chips');
-
-
                 const [instance] = M.Chips.init(elems, {
+                    autocompleteOptions: {
+                        data: all_tags,
+                        limit: Infinity,
+                        minLength: 1
+                    },
                     onChipAdd: (input, chip) => {
                         chip_count++;
                         const value = chip.innerText.split("\n")[0]
@@ -62,8 +73,8 @@
                     }
                 });
 
-                for (let key in data) {
-                    instance.addChip(data[key])
+                for (let key in json_tags) {
+                    instance.addChip(json_tags[key])
                 }
 
                 const [create_input] = chip_holder.getElementsByClassName("input")
