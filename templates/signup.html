@@ -1,16 +1,40 @@
 {% extends 'base.html' %}
 
-{% block content %}
+{% load static %}
 
+{% block content %}
 <div class="container-login card">
     <h3>Sign up.</h3>
+    <form method="post">
+        {% csrf_token %}
+
+        <div class="input-field  col">
+            {{ form.username }}
+            <span class="helper-text" data-error="wrong" data-success="right">
+                {{form.username.errors}}
+            </span>
+            <label for="{{ form.username.id_for_label }}">Username</label>
+        </div>
+
+        <div class="input-field  col">
+            {{ form.password1 }}
+            <span class="helper-text" data-error="wrong" data-success="right">
+                {{form.password1.errors}}
+            </span>
+            <label for="{{ form.password1.id_for_label }}">Password</label>
+        </div>
+
+        <div class="input-field  col">
+            {{ form.password2 }}
+            <span class="helper-text" data-error="wrong" data-success="right">
+                {{form.password2.errors}}
+            </span>
+            <label for="{{ form.password2.id_for_label }}">Repeat password</label>
+        </div>
+
+        <button type="submit" name="submit" value="submit" class="waves-effect waves-light btn primary">Sign up</button>
+    </form>
 </div>
 
-<script>
-  document.addEventListener('DOMContentLoaded', () => {
-    const [fab] = document.getElementsByClassName("fixed-action-btn")
-    console.log(fab)
-    fab.setAttribute("style", "display:none;")
-  })
-</script>
+<script src="{% static '/js/hide_fab.js' %}"></script>
 {% endblock %}

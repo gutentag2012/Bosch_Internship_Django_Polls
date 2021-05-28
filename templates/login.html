@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
 
+{% load static %}
+
 {% block content %}
 
 <div class="container-login card">
@@ -18,11 +20,5 @@
     </form>
 </div>
 
-<script>
-  document.addEventListener('DOMContentLoaded', () => {
-    const [fab] = document.getElementsByClassName("fixed-action-btn")
-    console.log(fab)
-    fab.setAttribute("style", "display:none;")
-  })
-</script>
+<script src="{% static '/js/hide_fab.js' %}"></script>
 {% endblock %}

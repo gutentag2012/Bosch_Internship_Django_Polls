@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
 
+{% load static %}
+
 {% block content %}
 <div class="container" style="padding-top: var(--space-large)">
     <div class="tag-holder">
@@ -23,7 +25,8 @@
         <form id="answer_form" method="post">
             {% csrf_token %}
             {% for answer in poll.answers %}
-            <div {% if not voted %} onclick="submitAnswer({{answer.id}})" {% endif %} class="card col c{{answer.color_index}}-card {% if answer.is_voted %}c{{answer.color_index}}-card-active card-active{% endif %}"
+            <div {% if not voted %} onclick="submitAnswer({{answer.id}})" {% endif %}
+                 class="card col c{{answer.color_index}}-card {% if answer.is_voted %}c{{answer.color_index}}-card-active card-active{% endif %}"
                  style="width: 100%">
                 <div class="card-header">
                     <h5>{{answer.content}}</h5>
@@ -36,27 +39,8 @@
             </div>
             {% endfor %}
         </form>
-        <script>
-            const answer_form = document.getElementById("answer_form")
-
-            function submitAnswer(answer_id) {
-                post({"vote": answer_id})
-            }
-
-            function post(params) {
-                for (const key in params) {
-                    if (params.hasOwnProperty(key)) {
-                        const hiddenField = document.createElement('input');
-                        hiddenField.type = 'hidden';
-                        hiddenField.name = key;
-                        hiddenField.value = params[key];
-
-                        answer_form.appendChild(hiddenField);
-                    }
-                }
-                answer_form.submit();
-            }
-        </script>
     </div>
 </div>
+
+<script src="{% static '/js/handle_login_form.js' %}"></script>
 {% endblock %}

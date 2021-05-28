@@ -1,5 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.forms import UserCreationForm
 from .models import Poll
 
 
@@ -30,6 +31,28 @@ def log_in_view(request):
 def sign_up_view(request):
     """The view that is responsible creating a new user."""
     context = {}
+
+    # Create default form for GET requests
+    form = UserCreationForm()
+
+    if request.method == "POST":
+        # Create form for POST requests
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            # Save the user to the database if the form is valid
+            form.save()
+
+            # Log the new user into the system
+            form_data = form.cleaned_data
+            user = authenticate(
+                username=form_data.get("username"),
+                password=form_data.get("password1"))
+            login(request, user)
+
+            return redirect("home")
+
+    # Set the form for the context
+    context["form"] = form
 
     return render(request, "signup.html", context)
 
@@ -109,11 +132,11 @@ def single_poll_view(request, poll_id):
             "id": answer.id,
             "content": answer.answer,
             "color_index": i % 15 + 1,
-            "votes_percent": (answer.count_votes() * 100 / context["poll"]["votes"]) if context["poll"]["votes"] > 0 else 0,
+            "votes_percent": (answer.count_votes() * 100 / context["poll"]["votes"]) if context["poll"][
+                                                                                            "votes"] > 0 else 0,
             "votes": answer.count_votes() if vote else 0,
             "is_voted": int(answer.id) == int(vote) if vote else False,
         })
         i += 1
 
     return render(request, "single_poll.html", context)
-
