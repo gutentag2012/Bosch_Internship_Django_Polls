@@ -8,7 +8,7 @@ class Poll(models.Model):
     It also contains two dates that represent the start and possible a end time.
     A poll can be identified through a collection of tags."""
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    question = models.TextField(max_length=240)
+    question = models.CharField(max_length=240)
     start_date = models.DateField(default=date.today)
     end_date = models.DateField(null=True, blank=True)
 
@@ -35,17 +35,23 @@ class Poll(models.Model):
         end_in_future = self.end_date is None or now <= self.end_date
         return start_in_past and end_in_future
 
+    def __str__(self):
+        return self.question
+
 
 class PollAnswer(models.Model):
     """A model that represents a specific answer to a poll. The number of votes
     on this answer is stored as a connection to the user that voted."""
-    answer = models.TextField(max_length=240)
+    answer = models.CharField(max_length=240)
     poll = models.ForeignKey(Poll, on_delete=models.CASCADE)
     users = models.ManyToManyField(User, blank=True, null=True)
 
     def count_votes(self):
         """Returns the number of votes for this specific answer."""
         return self.users.all().count()
+
+    def __str__(self):
+        return self.answer
 
 
 class Tag(models.Model):
@@ -54,3 +60,6 @@ class Tag(models.Model):
     name = models.CharField(max_length=100)
     color = models.IntegerField()
     polls = models.ManyToManyField(Poll, blank=True, null=True)
+
+    def __str__(self):
+        return f"#{self.name}"
