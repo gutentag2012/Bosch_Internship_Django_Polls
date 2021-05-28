@@ -27,12 +27,12 @@
                  style="width: 100%">
                 <div class="card-header">
                     <h5>{{answer.content}}</h5>
-                    <h4 class="c{{answer.color_index}}-text">{{answer.votes_percent|floatformat:-2}}%</h4>
+                    <h4 class="c{{answer.color_index}}-text">{% if not voted %}???{% else %}{{answer.votes_percent|floatformat:-2}}{% endif %} %</h4>
                 </div>
                 <div class="progress c{{answer.color_index}}-lighter">
                     <div class="determinate c{{answer.color_index}}" style="width: {{answer.votes_percent}}%"></div>
                 </div>
-                <p>{{answer.votes}} Vote{% if answer.votes != 1 %}s{% endif %}</p>
+                <p>{% if not voted %}???{% else %}{{answer.votes}}{% endif %} Vote{% if answer.votes != 1 %}s{% endif %}</p>
             </div>
             {% endfor %}
         </form>

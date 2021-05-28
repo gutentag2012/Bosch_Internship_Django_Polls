@@ -59,8 +59,9 @@ def single_poll_view(request, poll_id):
     # Retrieves a possible vote from the request
     vote = request.POST.get("vote")
 
-    # Get the poll for this request
+    # Get the poll for this request and the answer of the user (if there is one in the database)
     poll = get_object_or_404(Poll, pk=poll_id)
+    user_answer = poll.pollanswer_set.filter(users__id=request.user.id).first()
 
     # Creates the inital context
     context = {
@@ -69,7 +70,6 @@ def single_poll_view(request, poll_id):
             "username": poll.user.username,
             "tags": poll.get_tags(),
             "start_date": poll.start_date.strftime('%d.%m.%Y'),
-            "votes": poll.count_votes() if vote else 0,
             "answers": []
         },
         "is_error": False,
@@ -83,8 +83,16 @@ def single_poll_view(request, poll_id):
         # If the user made a vote it is voided here
         vote = None
 
-    # If there is a vote a boolean is entered into the context
-    context["voted"]: True if vote else False
+    if user_answer is not None:
+        # If there was a vote in the database add it to the view context
+        vote = user_answer.id
+    elif vote is not None:
+        # Add the vote to the database
+        poll.pollanswer_set.get(pk=vote).users.add(request.user)
+
+    # If there is a vote a boolean is entered into the context and the number of votes
+    context["voted"] = True if vote else False
+    context["poll"]["votes"] = poll.count_votes() if vote else 0
 
     # Fills the answers inside of the context with the important information
     i = 0
@@ -100,3 +108,4 @@ def single_poll_view(request, poll_id):
         i += 1
 
     return render(request, "single_poll.html", context)
+
