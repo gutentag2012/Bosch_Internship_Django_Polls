@@ -36,6 +36,8 @@
         </div>
 
         <script>
+            let test_function = () => console.log("Not initialized!")
+
             document.addEventListener('DOMContentLoaded', () => {
                 const [chip_holder] = document.getElementsByClassName("chips")
                 let chip_count = 0;
@@ -73,19 +75,28 @@
                     label.setAttribute("class", "active")
                 })
                 create_input.addEventListener("blur", () => {
-                    if (chip_count === 0)
+                    if (chip_count === 0 && !create_input.value)
                         label.setAttribute("class", "")
                 })
                 if (chip_count > 0) {
                     label.setAttribute("class", "active")
                 }
+
+                test_function = () => {
+                    if(create_input.value) {
+                        instance.addChip({tag: create_input.value})
+                        create_input.value = ""
+                    }
+                }
             });
         </script>
-
         <a href="{% url 'home' %}" class="waves-effect waves-primary btn-flat">Cancel</a>
-        <button type="submit" name="submit" value="submit" class="waves-effect waves-light btn primary">Submit</button>
+        <button onclick="test_function()" type="submit" name="submit" value="submit"
+                class="waves-effect waves-light btn primary">Submit
+        </button>
     </form>
 </div>
+
 
 <script src="{% static '/js/hide_fab.js' %}"></script>
 {% endblock %}

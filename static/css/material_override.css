@@ -212,6 +212,10 @@ textarea.materialize-textarea:focus.valid ~ .helper-text:after, .select-wrapper.
     margin-left: 10px;
 }
 
+.chips .input {
+    color: var(--color-on-background);
+}
+
 .chips .chip:focus {
     background-color: var(--color-background);
     color: var(--color-on-background);

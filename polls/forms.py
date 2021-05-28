@@ -31,3 +31,6 @@ class PollForm(forms.ModelForm):
             "start_date",
             "end_date",
         ]
+
+    def clean_end_date(self, *args, **kwargs):
+        print("Clear")
