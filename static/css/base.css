@@ -1,8 +1,9 @@
-html {
+:root {
     --height_toolbar: 64px;
     --space-tiny: 4px;
     --space-small: 8px;
     --space-large: 16px;
+    --space-extreme: 32px;
     --padding-title: 72px;
     --dist-card-move: 30px;
     --border-width: 2px;
@@ -15,7 +16,7 @@ html {
     --color-on-background: #000;
     --color-surface: #FFF;
     --color-background: #F5F5F5;
-    --color-error: #aa0007;
+    --color-error: #8e0509;
     --color-on-error: #FFF;
     --color-primary: #DA2128;
     --color-primary-ripple: rgba(218, 33, 40, 0.7);
@@ -81,15 +82,32 @@ nav {
     color: var(--color-on-error);
 }
 
+.container-login {
+  margin: 48px auto 0 auto;
+  max-width: 880px;
+  width: 90%;
+}
+
+.container-login h3 {
+    margin: var(--space-large) 0 0 0;
+}
+
+.container-login .input-field {
+    margin-top: var(--space-extreme);
+}
+.card.container-login .input-field {
+    margin-top: var(--space-extreme);
+}
+
 .card {
     padding: var(--space-large) !important;
+    background-color: var(--color-surface);
     -webkit-transition: all 0.2s ease-in-out;
     transition: all 0.2s ease-in-out;
     border: transparent solid var(--border-width);
-    background-color: var(--color-surface);
 }
 
-.card:hover, .card-active {
+.card:not(.error):hover, .card-active {
     cursor: pointer;
     -webkit-transition: all 0.2s ease-in-out;
     transition: all 0.2s ease-in-out;
@@ -126,6 +144,20 @@ nav {
     align-items: center;
     flex-direction: row;
     justify-content: center;
+}
+
+.btn-extended span {
+    margin-left: var(--space-small);
+    color: var(--color-on-primary);
+}
+.btn-extended {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    width: inherit !important;
+    border-radius: 56px !important;
+    padding-left: var(--space-large) !important;
+    padding-right: var(--space-large) !important;
 }
 
 #logo-text {

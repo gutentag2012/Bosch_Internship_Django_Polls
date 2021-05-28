@@ -16,7 +16,42 @@
     <link rel="icon" type="image/png" href="{% static 'bp_logo.png' %}" sizes="96x96">
     <title>Bosch Polls</title>
 </head>
+<script src="{% static '/js/materialize.min.js' %}">
+</script>
+<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
 <body>
+
+<script>
+    const get_cookie = (name) => {
+        name += '='
+        const cookies = decodeURIComponent(document.cookie).split('; ');
+        for (let i in cookies) {
+            const cookie = cookies[i]
+            if (cookie.indexOf(name) === 0) {
+                return cookie.substring(name.length, cookie.length);
+            }
+        }
+        return "";
+    }
+    const change_dark_mode = (is_dark_mode) => {
+        document.cookie = "dark_mode=" + is_dark_mode
+        if (is_dark_mode) {
+            document.documentElement.style.setProperty("--color-on-background", "#FFF")
+            document.documentElement.style.setProperty("--color-surface", "#2a2a2a")
+            document.documentElement.style.setProperty("--color-background", "#1d1d1d")
+        }
+    }
+    const toggle_dark_mode = () => {
+        change_dark_mode(is_dark_mode = !is_dark_mode)
+        location.reload()
+    }
+
+    let is_dark_mode = window.matchMedia('(prefers-color-scheme: dark)').matches
+    if (document.cookie.includes("dark_mode=")) {
+        is_dark_mode = get_cookie("dark_mode") === "true"
+    }
+    change_dark_mode(is_dark_mode)
+</script>
 
 <nav>
     <div class="nav-wrapper">
@@ -25,6 +60,8 @@
             <p id="logo-text">Bosch Polls</p>
         </a>
         <ul id="nav-mobile" class="right hide-on-med-and-down">
+            <li><i class="material-icons waves-effect waves-primary btn-flat" onclick="toggle_dark_mode()"
+                   style="color: var(--color-on-background);">brightness_medium</i></li>
             <li><a href="/login" class="waves-effect waves-primary btn-flat">Log in</a></li>
             <li><a href="/signup" class="waves-effect waves-light btn primary">Sign up</a></li>
         </ul>
@@ -35,12 +72,10 @@
     {% endblock %}
 </main>
 <div class="fixed-action-btn">
-    <a class="btn-floating btn-large primary">
+    <a class="btn-floating btn-large primary btn-extended">
         <i class="large material-icons">add</i>
+        <span>Create Poll</span>
     </a>
 </div>
-<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-<script src="{% static '/js/materialize.min.js' %}">
-</script>
 </body>
 </html>

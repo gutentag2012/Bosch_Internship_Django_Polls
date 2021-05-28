@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.http import Http404
-from entities.models import Poll, PollAnswer
+from entities.models import Poll
 
 
 def get_object_or_404(holder, pk):
@@ -9,6 +9,10 @@ def get_object_or_404(holder, pk):
     except holder.DoesNotExist:
         raise Http404("Poll does not exist!")
     return element
+
+
+def log_in_view(request):
+    return render(request, "login.html", {})
 
 
 def home_page_view(request):
@@ -33,7 +37,7 @@ def single_poll_view(request, poll_id):
     vote = request.POST.get("vote")
     error = None
 
-    if vote and not request.user.is_authenticated:
+    if not request.user.is_authenticated:
         vote = None
         error = "You need to log in in order to vote!"
 

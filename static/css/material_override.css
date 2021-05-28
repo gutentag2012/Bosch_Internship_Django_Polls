@@ -149,3 +149,7 @@ textarea.materialize-textarea:focus.valid ~ .helper-text:after, .select-wrapper.
 .input-field .prefix ~ label {
   margin-left: 0;
 }
+
+.material-icons.btn-flat {
+  text-transform: inherit;
+}
