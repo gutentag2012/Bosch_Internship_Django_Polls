@@ -19,7 +19,7 @@
     </form>
     <div class="row">
         {% for poll in polls %}
-        <a href="/polls/{{poll.id}}">
+        <a href="{% url 'polls' poll.id %}">
             <div class="card col c{{poll.color_index}}-card" style="width: 100%">
                 <div class="card-header">
                     <h5>{{poll.question}}</h5>

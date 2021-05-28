@@ -4,28 +4,43 @@ from .models import Poll
 
 
 def log_in_view(request):
-    logout(request)
+    """The view that is responsible for logging the users in. Also performs a logout on the current user."""
     context = {}
+
+    logout(request)
+
     if request.method == "POST":
-        username = request.POST.get("username")
-        password = request.POST.get("password")
-        user = authenticate(username=username, password=password)
+        # Authenticates with the form in the frontend
+        user = authenticate(
+            username=request.POST.get("username"),
+            password=request.POST.get("password"))
+
         if user is None:
+            # The given data was invalid, so display an error message
             context["is_error"] = True
             context["msg_error"] = "Invalid username or password!"
         else:
+            # If the user could be authenticated, he is logged in and redirected to the homepage
             login(request, user)
-            return redirect("/")
+            return redirect("home")
 
     return render(request, "login.html", context)
 
 
 def home_page_view(request):
-    search_term = request.GET.get("search") or ""
-    poll_objs = Poll.objects.filter(question__icontains=search_term)
+    """The view that displays all available polls and filters them according to the user input."""
 
+    # Retrieves the search term from the request or a default empty string
+    search_term = request.GET.get("search") or ""
+
+    # Filters the poll objects after the search term and whether they are available or not
+    poll_objs = Poll.objects.filter(question__icontains=search_term)
+    poll_objs = filter(lambda e: e.is_still_available(), poll_objs)
+
+    # Builds the context with a list of polls and the search term
     context = {"polls": [], "search_term": search_term}
 
+    # Extracts the important information out of the poll objects and adds them to the context
     for i, item in enumerate(poll_objs):
         context["polls"].append({
             "id": item.id,
@@ -39,17 +54,15 @@ def home_page_view(request):
 
 
 def single_poll_view(request, poll_id):
+    """The view that displays a poll with is answers. It also handles the voting interaction."""
+
+    # Retrieves a possible vote from the request
     vote = request.POST.get("vote")
-    error = None
 
-    if not request.user.is_authenticated:
-        vote = None
-        error = "You need to log in in order to vote!"
-
+    # Get the poll for this request
     poll = get_object_or_404(Poll, pk=poll_id)
-    poll_answer = poll.pollanswer_set.filter(users__id=request.user.id)
-    print(poll_answer)
 
+    # Creates the inital context
     context = {
         "poll": {
             "question": poll.question,
@@ -59,18 +72,28 @@ def single_poll_view(request, poll_id):
             "votes": poll.count_votes() if vote else 0,
             "answers": []
         },
-        "not_voted": False if vote else True,
-        "is_error": True if error else False,
-        "msg_error": error
+        "is_error": False,
+        "msg_error": ""
     }
 
+    if not request.user.is_authenticated:
+        # If the user is not authenticated he is not able to vote and an error message is displayed
+        context["msg_error"] = "You need to log in in order to vote!"
+        context["is_error"] = True
+        # If the user made a vote it is voided here
+        vote = None
+
+    # If there is a vote a boolean is entered into the context
+    context["voted"]: True if vote else False
+
+    # Fills the answers inside of the context with the important information
     i = 0
     for answer in poll.pollanswer_set.all():
         context["poll"]["answers"].append({
             "id": answer.id,
             "content": answer.answer,
             "color_index": i % 15 + 1,
-            "votes_percent": (answer.count_votes() * 100 / context["poll"]["votes"]) if vote else 0,
+            "votes_percent": (answer.count_votes() * 100 / context["poll"]["votes"]) if context["poll"]["votes"] > 0 else 0,
             "votes": answer.count_votes() if vote else 0,
             "is_voted": int(answer.id) == int(vote) if vote else False,
         })
