@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib import admin
 from django.contrib.auth.models import User
 from datetime import date
 
@@ -7,7 +8,7 @@ class Poll(models.Model):
     """A model that represents a collection with a collection of answers.
     It also contains two dates that represent the start and possible a end time.
     A poll can be identified through a collection of tags."""
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    creator = models.ForeignKey(User, on_delete=models.CASCADE)
     question = models.CharField(max_length=240)
     start_date = models.DateField(default=date.today)
     end_date = models.DateField(null=True, blank=True)
@@ -23,10 +24,20 @@ class Poll(models.Model):
             })
         return tags
 
+    @admin.display(
+        boolean=False,
+        ordering="question",
+        description="votes"
+    )
     def count_votes(self):
         """Returns the number of votes on the poll."""
         return sum(map(lambda e: e.count_votes(), self.pollanswer_set.all()))
 
+    @admin.display(
+        boolean=True,
+        ordering="count_votes",
+        description="Still Available?"
+    )
     def is_still_available(self):
         """Returns wether the polls time range contains the current date. So if the poll has
         still a valid date."""
@@ -44,11 +55,16 @@ class PollAnswer(models.Model):
     on this answer is stored as a connection to the user that voted."""
     answer = models.CharField(max_length=240)
     poll = models.ForeignKey(Poll, on_delete=models.CASCADE)
-    users = models.ManyToManyField(User, blank=True, null=True)
+    user_votes = models.ManyToManyField(User, blank=True)
 
+    @admin.display(
+        boolean=False,
+        ordering="question",
+        description="votes"
+    )
     def count_votes(self):
         """Returns the number of votes for this specific answer."""
-        return self.users.all().count()
+        return self.user_votes.all().count()
 
     def __str__(self):
         return self.answer
@@ -59,7 +75,7 @@ class Tag(models.Model):
     with this tag. It also has a color and name assiciated with it."""
     name = models.CharField(max_length=100)
     color = models.IntegerField()
-    polls = models.ManyToManyField(Poll, blank=True, null=True)
+    polls = models.ManyToManyField(Poll, blank=True)
 
     def __str__(self):
         return f"#{self.name}"

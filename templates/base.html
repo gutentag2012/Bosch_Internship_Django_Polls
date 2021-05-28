@@ -10,6 +10,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="{% static '/css/materialize.min.css' %}">
+    <link rel="stylesheet" href="{% static '/css/base_variables.css' %}">
     <link rel="stylesheet" href="{% static '/css/base.css' %}">
     <link rel="stylesheet" href="{% static '/css/colors.css' %}">
     <link rel="stylesheet" href="{% static '/css/material_override.css' %}">
@@ -21,36 +22,7 @@
 <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
 <body>
 
-<script>
-    const get_cookie = (name) => {
-        name += '='
-        const cookies = decodeURIComponent(document.cookie).split('; ');
-        for (let i in cookies) {
-            const cookie = cookies[i]
-            if (cookie.indexOf(name) === 0) {
-                return cookie.substring(name.length, cookie.length);
-            }
-        }
-        return "";
-    }
-    const change_dark_mode = (is_dark_mode) => {
-        document.cookie = "dark_mode=" + is_dark_mode
-        if (is_dark_mode) {
-            document.documentElement.style.setProperty("--color-on-background", "#FFF")
-            document.documentElement.style.setProperty("--color-surface", "#2a2a2a")
-            document.documentElement.style.setProperty("--color-background", "#1d1d1d")
-        }
-    }
-    const toggle_dark_mode = () => {
-        change_dark_mode(is_dark_mode = !is_dark_mode)
-        location.reload()
-    }
-
-    let is_dark_mode = window.matchMedia('(prefers-color-scheme: dark)').matches
-    if (document.cookie.includes("dark_mode=")) {
-        is_dark_mode = get_cookie("dark_mode") === "true"
-    }
-    change_dark_mode(is_dark_mode)
+<script src="{% static '/js/handle_dark_mode.js' %}">
 </script>
 
 <nav>
@@ -66,7 +38,8 @@
             <li><a href="{% url 'login' %}" class="waves-effect waves-primary btn-flat">Log in</a></li>
             <li><a href="{% url 'signup' %}" class="waves-effect waves-light btn primary">Sign up</a></li>
             {% else %}
-            <li class="username"><span>Welcome, {{user.username}}</span><a href="{% url 'login'%}"><i class="material-icons">logout</i></a></li>
+            <li class="username"><span>Welcome, {{user.username}}</span><a href="{% url 'login'%}"><i
+                    class="material-icons">logout</i></a></li>
             {% endif %}
         </ul>
     </div>

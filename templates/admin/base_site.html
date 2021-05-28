@@ -1,0 +1,23 @@
+{% extends "admin/base.html" %}
+
+{% load static %}
+
+{% block extrastyle %}
+<link href="{% static '/css/base_variables.css' %}" rel="stylesheet" type="text/css" media="screen,projection"/>
+<link href="{% static 'css/admin.css' %}" rel="stylesheet" type="text/css" media="screen,projection"/>
+<script src="{% static '/js/handle_dark_mode.js' %}">
+</script>
+{% endblock %}
+
+{% block title %}{{ title }} | {{ site_title|default:_('Django site admin') }}{% endblock %}
+
+{% block branding %}
+<h1 id="site-name">
+    <a href="{% url 'admin:index' %}">
+        <img src="{% static 'img/bp_logo.png' %}" height="40px" alt="logo"/>
+        <h4 style="display: inline">Bosch Polls Administration</h4>
+    </a>
+</h1>
+{% endblock %}
+
+{% block nav-global %}{% endblock %}

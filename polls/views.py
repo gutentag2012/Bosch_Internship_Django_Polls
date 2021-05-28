@@ -68,13 +68,13 @@ def single_poll_view(request, poll_id):
 
     # Get the poll for this request and the answer of the user (if there is one in the database)
     poll = get_object_or_404(Poll, pk=poll_id)
-    user_answer = poll.pollanswer_set.filter(users__id=request.user.id).first()
+    user_answer = poll.pollanswer_set.filter(user_votes__id=request.user.id).first()
 
     # Creates the inital context
     context = {
         "poll": {
             "question": poll.question,
-            "username": poll.user.username,
+            "username": poll.creator.username,
             "tags": poll.get_tags(),
             "start_date": poll.start_date.strftime('%d.%m.%Y'),
             "answers": []
@@ -89,13 +89,14 @@ def single_poll_view(request, poll_id):
         context["is_error"] = True
         # If the user made a vote it is voided here
         vote = None
-
-    if user_answer is not None:
-        # If there was a vote in the database add it to the view context
-        vote = user_answer.id
-    elif vote is not None:
-        # Add the vote to the database
-        poll.pollanswer_set.get(pk=vote).users.add(request.user)
+    else:
+        # If the user is authenticated to the following:
+        if user_answer is not None:
+            # If there was a vote in the database add it to the view context
+            vote = user_answer.id
+        elif vote is not None:
+            # Add the vote to the database
+            poll.pollanswer_set.get(pk=vote).user_votes.add(request.user)
 
     # If there is a vote a boolean is entered into the context and the number of votes
     context["voted"] = True if vote else False

@@ -1,0 +1,47 @@
+:root {
+    --header-bg: var(--color-surface);
+    --header-color: var(--color-on-background);
+    --header-branding-color: var(--color-primary);
+
+    --header-link-color: var(--color-on-background);
+    --link-fg: var(--color-on-background);
+    --link-hover-color: var(--color-primary);
+
+    --accent: var(--color-primary);
+    --primary: var(--color-primary);
+
+    --body-fg: var(--color-on-background);
+    --body-quiet-color: var(--color-on-background);
+    --hairline-color: var(--color-on-background);
+
+    --selected-bg: var(--color-background);
+    --darkened-bg: var(--color-surface);
+
+    --body-bg: var(--color-background);
+
+    --selected-row: var(--color-primary-ripple);
+
+    --breadcrumbs-bg: var(--color-primary);
+    --breadcrumbs-fg: var(--color-on-primary);
+
+    --default-button-bg: var(--color-primary);
+    --default-button-hover-bg: var(--color-primary-ripple);
+    --button-bg: var(--color-primary);
+    --button-hover-bg: var(--color-primary-ripple);
+}
+
+caption a {
+    color: var(--color-on-primary) !important;
+}
+
+tr:nth-child(odd), .row-form-errors {
+    background-color: var(--color-surface-darker);
+}
+
+.module h2, .module caption, .inline-group h2{
+    color: var(--color-on-primary);
+}
+
+#branding h1, #branding h1 a:link, #branding h1 a:visited {
+    color: var(--color-on-background);
+}
