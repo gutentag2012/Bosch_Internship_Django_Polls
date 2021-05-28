@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container-login card">
+    <h3>Sign up.</h3>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const [fab] = document.getElementsByClassName("fixed-action-btn")
+    console.log(fab)
+    fab.setAttribute("style", "display:none;")
+  })
+</script>
+{% endblock %}

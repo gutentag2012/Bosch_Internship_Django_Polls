@@ -9,6 +9,6 @@ urlpatterns = [
     path('polls/<int:poll_id>/', views.single_poll_view, name='polls'),
     # The login page, where user can log into an existing account
     path('login/', views.log_in_view, name='login'),
-
-    path('signup/', views.log_in_view, name='signup'),
+    # The signup page, where a new user can be created
+    path('signup/', views.sign_up_view, name='signup'),
 ]

@@ -27,6 +27,13 @@ def log_in_view(request):
     return render(request, "login.html", context)
 
 
+def sign_up_view(request):
+    """The view that is responsible creating a new user."""
+    context = {}
+
+    return render(request, "signup.html", context)
+
+
 def home_page_view(request):
     """The view that displays all available polls and filters them according to the user input."""
 

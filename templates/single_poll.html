@@ -32,7 +32,7 @@
                 <div class="progress c{{answer.color_index}}-lighter">
                     <div class="determinate c{{answer.color_index}}" style="width: {{answer.votes_percent}}%"></div>
                 </div>
-                <p>{% if not voted %}???{% else %}{{answer.votes}}{% endif %} Vote{% if answer.votes != 1 %}s{% endif %}</p>
+                <p>{% if not voted %}???{% else %}{{answer.votes}}{% endif %} Vote{{answer.votes|pluralize}}</p>
             </div>
             {% endfor %}
         </form>

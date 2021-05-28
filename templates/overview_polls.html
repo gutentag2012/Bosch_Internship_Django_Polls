@@ -23,7 +23,7 @@
             <div class="card col c{{poll.color_index}}-card" style="width: 100%">
                 <div class="card-header">
                     <h5>{{poll.question}}</h5>
-                    <strong>{{poll.votes}} Vote{% if poll.votes != 1 %}s{% endif %}</strong>
+                    <strong>{{poll.votes}} Vote{{poll.vote|pluralize}}</strong>
                 </div>
                 <div class="tag-holder">
                     {% for tag in poll.tags %}
