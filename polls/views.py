@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth import authenticate, login, logout
-from entities.models import Poll
+from .models import Poll
 
 
 def log_in_view(request):
