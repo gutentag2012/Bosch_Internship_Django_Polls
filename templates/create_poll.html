@@ -1,0 +1,91 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block content %}
+<div class="container-login card">
+    <h3>Create your own <strong class="text-primary">Poll</strong>.</h3>
+    <form method="post">
+        {% csrf_token %}
+
+        <div class="input-field  col">
+            {{ form.question }}
+            <span class="helper-text" data-error="wrong" data-success="right">
+                {{form.question.errors}}
+            </span>
+            <label for="{{ form.question.id_for_label }}">Question</label>
+        </div>
+
+        <div class="input-field  col">
+            {{ form.start_date }}
+            <span class="helper-text" data-error="wrong" data-success="right">
+                {{form.start_date.errors}}
+            </span>
+            <label for="{{ form.start_date.id_for_label }}">Start Date</label>
+        </div>
+
+        <div class="input-field  col">
+            {{ form.end_date }}
+            <span class="helper-text" data-error="wrong" data-success="right">
+                {{form.end_date.errors}}
+            </span>
+            <label for="{{ form.end_date.id_for_label }}" onload="console.log('loaded')">End Date</label>
+        </div>
+
+        <div class="chips">
+        </div>
+
+        <script>
+            document.addEventListener('DOMContentLoaded', () => {
+                const [chip_holder] = document.getElementsByClassName("chips")
+                let chip_count = 0;
+
+                const e = '{{ tags|escapejs }}'.replaceAll("\'", "\"");
+                const data = JSON.parse(e)
+                const elems = document.querySelectorAll('.chips');
+
+
+                const [instance] = M.Chips.init(elems, {
+                    onChipAdd: (input, chip) => {
+                        chip_count++;
+                        const value = chip.innerText.split("\n")[0]
+                        const hidden_input = document.createElement("input")
+                        hidden_input.setAttribute("type", "hidden")
+                        hidden_input.setAttribute("name", `chip-${chip_holder.childElementCount}`)
+                        hidden_input.setAttribute("value", `${value}`)
+                        chip.appendChild(hidden_input)
+                    },
+                    onChipDelete: () => {
+                        chip_count--;
+                    }
+                });
+
+                for (let key in data) {
+                    instance.addChip(data[key])
+                }
+
+                const [create_input] = chip_holder.getElementsByClassName("input")
+                const label = document.createElement("label")
+                label.setAttribute("for", create_input.getAttribute("id"))
+                label.innerText = "Tags"
+                chip_holder.appendChild(label)
+                create_input.addEventListener("focus", () => {
+                    label.setAttribute("class", "active")
+                })
+                create_input.addEventListener("blur", () => {
+                    if (chip_count === 0)
+                        label.setAttribute("class", "")
+                })
+                if (chip_count > 0) {
+                    label.setAttribute("class", "active")
+                }
+            });
+        </script>
+
+        <a href="{% url 'home' %}" class="waves-effect waves-primary btn-flat">Cancel</a>
+        <button type="submit" name="submit" value="submit" class="waves-effect waves-light btn primary">Submit</button>
+    </form>
+</div>
+
+<script src="{% static '/js/hide_fab.js' %}"></script>
+{% endblock %}

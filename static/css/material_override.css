@@ -24,8 +24,8 @@ input[type=search]:not(.browser-default).valid ~ .helper-text:after,
 input[type=search]:not(.browser-default):focus.valid ~ .helper-text:after,
 textarea.materialize-textarea.valid ~ .helper-text:after,
 textarea.materialize-textarea:focus.valid ~ .helper-text:after, .select-wrapper.valid ~ .helper-text:after {
-  content: attr(data-success);
-  color: var(--color-primary);
+    content: attr(data-success);
+    color: var(--color-primary);
 }
 
 input:not([type]):focus:not([readonly]),
@@ -41,9 +41,9 @@ input[type=tel]:not(.browser-default):focus:not([readonly]),
 input[type=number]:not(.browser-default):focus:not([readonly]),
 input[type=search]:not(.browser-default):focus:not([readonly]),
 textarea.materialize-textarea:focus:not([readonly]) {
-  border-bottom: 1px solid var(--color-primary);
-  -webkit-box-shadow: 0 1px 0 0 var(--color-primary);
-          box-shadow: 0 1px 0 0 var(--color-primary);
+    border-bottom: 1px solid var(--color-primary);
+    -webkit-box-shadow: 0 1px 0 0 var(--color-primary);
+    box-shadow: 0 1px 0 0 var(--color-primary);
 }
 
 input:not([type]):focus:not([readonly]) + label,
@@ -59,7 +59,7 @@ input[type=tel]:not(.browser-default):focus:not([readonly]) + label,
 input[type=number]:not(.browser-default):focus:not([readonly]) + label,
 input[type=search]:not(.browser-default):focus:not([readonly]) + label,
 textarea.materialize-textarea:focus:not([readonly]) + label {
-  color: var(--color-primary);
+    color: var(--color-primary);
 }
 
 input:not([type]):focus.valid ~ label,
@@ -75,8 +75,9 @@ input[type=tel]:not(.browser-default):focus.valid ~ label,
 input[type=number]:not(.browser-default):focus.valid ~ label,
 input[type=search]:not(.browser-default):focus.valid ~ label,
 textarea.materialize-textarea:focus.valid ~ label {
-  color: var(--color-on-background);
+    color: var(--color-on-background);
 }
+
 /* Validation Sass Placeholders */
 input.valid:not([type]), input.valid:not([type]):focus,
 input.valid[type=text]:not(.browser-default),
@@ -103,10 +104,11 @@ input.valid[type=search]:not(.browser-default),
 input.valid[type=search]:not(.browser-default):focus,
 textarea.materialize-textarea.valid,
 textarea.materialize-textarea.valid:focus, .select-wrapper.valid > input.select-dropdown {
-  border-bottom: 1px solid var(--color-on-background);
-  -webkit-box-shadow: 0 1px 0 0 var(--color-on-background);
-          box-shadow: 0 1px 0 0 var(--color-on-background);
+    border-bottom: 1px solid var(--color-on-background);
+    -webkit-box-shadow: 0 1px 0 0 var(--color-on-background);
+    box-shadow: 0 1px 0 0 var(--color-on-background);
 }
+
 input:not([type]).valid ~ .helper-text:after,
 input:not([type]):focus.valid ~ .helper-text:after,
 input[type=text]:not(.browser-default).valid ~ .helper-text:after,
@@ -133,8 +135,8 @@ input[type=search]:not(.browser-default).valid ~ .helper-text:after,
 input[type=search]:not(.browser-default):focus.valid ~ .helper-text:after,
 textarea.materialize-textarea.valid ~ .helper-text:after,
 textarea.materialize-textarea:focus.valid ~ .helper-text:after, .select-wrapper.valid ~ .helper-text:after {
-  content: attr(data-success);
-  color: var(--color-on-background);
+    content: attr(data-success);
+    color: var(--color-on-background);
 }
 
 .input-field .prefix ~ input,
@@ -143,13 +145,86 @@ textarea.materialize-textarea:focus.valid ~ .helper-text:after, .select-wrapper.
 .input-field .prefix ~ .validate ~ label,
 .input-field .prefix ~ .helper-text,
 .input-field .prefix ~ .autocomplete-content {
-  margin-left: 0;
-  width: 100%;
+    width: 100%;
+    margin-left: 0;
 }
+
 .input-field .prefix ~ label {
-  margin-left: 0;
+    margin-left: 0;
 }
 
 .material-icons.btn-flat {
-  text-transform: inherit;
+    text-transform: inherit;
+}
+
+.dropdown-content.select-dropdown {
+    background-color: var(--color-surface);
+}
+
+.datepicker-controls .select-month input {
+    width: 12ch;
+}
+
+.dropdown-content.select-dropdown {
+    width: 18ch !important;
+}
+
+.dropdown-content.select-dropdown span {
+    color: var(--color-on-background);
+    background-color: var(--color-surface);
+}
+
+.datepicker-calendar-container {
+    background-color: var(--color-background);
+}
+
+.datepicker-calendar-container button:focus {
+    background-color: var(--color-primary);
+}
+
+.month-next svg, .month-prev svg {
+    fill: var(--color-on-background) !important;
+}
+
+.datepicker-cancel, .datepicker-clear, .datepicker-today, .datepicker-done {
+    color: var(--color-primary);
+}
+
+.datepicker-table td.is-selected {
+    color: var(--color-on-primary);
+    background-color: var(--color-primary);
+}
+
+.datepicker-table td.is-today {
+    color: var(--color-primary);
+}
+
+.datepicker-date-display {
+    background-color: var(--color-primary);
+}
+
+.date-text {
+    color: var(--color-on-primary);
+}
+
+.chips {
+    margin-right: 10px;
+    margin-left: 10px;
+}
+
+.chips .chip:focus {
+    background-color: var(--color-background);
+    color: var(--color-on-background);
+}
+.chips .chip {
+    background-color: var(--color-background);
+    color: var(--color-on-background);
+}
+.chips .chip i {
+    color: var(--color-on-background);
+}
+
+.chips.focus {
+    border-bottom: 1px solid var(--color-primary);
+    box-shadow: 0 1px 0 0 var(--color-primary);
 }

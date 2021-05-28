@@ -33,7 +33,7 @@ nav {
     background-color: var(--color-primary-ripple);
 }
 
-.search-bar a, button {
+.search-bar a .search-bar button {
     margin: var(--space-small);
 }
 
@@ -60,18 +60,23 @@ nav {
 }
 
 .container-login {
-  margin: 48px auto 0 auto;
-  max-width: 880px;
-  width: 90%;
+    width: 90%;
+    max-width: 880px;
+    margin: 48px auto 0 auto;
 }
 
 .container-login h3 {
     margin: var(--space-large) 0 0 0;
 }
 
+.input-field {
+    padding: 0 .75rem;
+}
+
 .container-login .input-field {
     margin-top: var(--space-extreme);
 }
+
 .card.container-login .input-field {
     margin-top: var(--space-extreme);
 }
@@ -83,12 +88,16 @@ nav {
     margin-right: var(--space-large);
 }
 
+.username span {
+    margin-right: var(--space-large);
+}
+
 .card {
     padding: var(--space-large) !important;
-    background-color: var(--color-surface);
     -webkit-transition: all 0.2s ease-in-out;
     transition: all 0.2s ease-in-out;
     border: transparent solid var(--border-width);
+    background-color: var(--color-surface);
 }
 
 .card:not(.error):not(.container-login):hover, .card-active {
@@ -103,6 +112,10 @@ nav {
     align-items: center;
     flex-direction: row;
     justify-content: space-between;
+}
+
+.card-header strong {
+    white-space: nowrap;
 }
 
 .tag-holder {
@@ -123,6 +136,18 @@ nav {
     justify-content: space-between;
 }
 
+.header-container h3 {
+    overflow: hidden;
+    max-width: 34ch;
+    text-overflow: ellipsis;
+}
+
+.header-container p {
+    overflow: hidden;
+    max-width: 72ch;
+    text-overflow: ellipsis;
+}
+
 .center-row {
     display: flex;
     align-items: center;
@@ -134,14 +159,15 @@ nav {
     margin-left: var(--space-small);
     color: var(--color-on-primary);
 }
+
 .btn-extended {
     display: flex;
     flex-direction: row;
     justify-content: center;
     width: inherit !important;
-    border-radius: 56px !important;
-    padding-left: var(--space-large) !important;
     padding-right: var(--space-large) !important;
+    padding-left: var(--space-large) !important;
+    border-radius: 56px !important;
 }
 
 #logo-text {

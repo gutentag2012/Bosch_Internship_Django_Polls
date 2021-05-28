@@ -17,11 +17,14 @@
     <link rel="icon" type="image/png" href="{% static 'img/bp_logo.png' %}" sizes="96x96">
     <title>Bosch Polls</title>
 </head>
-<script src="{% static '/js/materialize.min.js' %}"></script>
 <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+<script src="{% static '/js/materialize.min.js' %}"></script>
+<script src="{% static '/js/handle_dark_mode.js' %}"></script>
 <body>
-
-<script src="{% static '/js/handle_dark_mode.js' %}">
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        M.AutoInit(document.body)
+    });
 </script>
 
 <nav>
@@ -56,7 +59,7 @@
     {% endblock %}
 </main>
 <div class="fixed-action-btn">
-    <a class="btn-floating btn-large primary btn-extended">
+    <a href="{% url 'create-poll' %}" class="btn-floating btn-large primary btn-extended">
         <i class="large material-icons">add</i>
         <span>Create Poll</span>
     </a>

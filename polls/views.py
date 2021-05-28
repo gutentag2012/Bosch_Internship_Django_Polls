@@ -1,7 +1,10 @@
 from django.shortcuts import render, get_object_or_404, redirect
+from django.db.models import Q
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import UserCreationForm
-from .models import Poll
+from .forms import PollForm
+from .models import Poll, Tag
+from datetime import datetime
 
 
 def log_in_view(request):
@@ -63,8 +66,8 @@ def home_page_view(request):
     # Retrieves the search term from the request or a default empty string
     search_term = request.GET.get("search") or ""
 
-    # Filters the poll objects after the search term and whether they are available or not
-    poll_objs = Poll.objects.filter(question__icontains=search_term)
+    # Filters the poll objects after the search term and whether they are available or not (Search respects both the name and the tags)
+    poll_objs = Poll.objects.filter(Q(question__icontains=search_term) | Q(tag__name__icontains=search_term)).distinct()
     poll_objs = filter(lambda e: e.is_still_available(), poll_objs)
 
     # Builds the context with a list of polls and the search term
@@ -140,3 +143,42 @@ def single_poll_view(request, poll_id):
         i += 1
 
     return render(request, "single_poll.html", context)
+
+
+def create_poll_view(request):
+    context = {}
+    form = PollForm()
+    context["form"] = form
+
+    context["tags"] = []
+    for tag in request.POST:
+        if tag.startswith("chip"):
+            context["tags"].append({"tag": request.POST.get(tag)})
+
+    if request.method == "POST":
+        form = PollForm(request.POST)
+        if form.is_valid():
+            start_date = datetime.strptime(request.POST.get("start_date"), "%b %d, %Y").date()
+            end_date = None
+            if request.POST.get("end_date"):
+                end_date = datetime.strptime(request.POST.get("end_date"), "%b %d, %Y").date()
+            var = Poll.objects.create(**{
+                "creator": request.user,
+                "question": request.POST.get("question"),
+                "start_date": start_date,
+                "end_date": end_date,
+            })
+            for tag in context["tags"]:
+                tag_to_add = None
+                try:
+                    tag_to_add = Tag.objects.get(name=tag["tag"])
+                except Tag.DoesNotExist:
+                    tag_to_add = Tag.objects.create(**{
+                        "name": tag["tag"],
+                        "color": Tag.objects.all().count()
+                    })
+                var.tag_set.add(tag_to_add)
+            return redirect("home")
+
+
+    return render(request, "create_poll.html", context)
