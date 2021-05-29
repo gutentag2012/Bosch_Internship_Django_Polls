@@ -4,8 +4,8 @@
 <div class="container">
     <h3>Discover our <strong class="text-primary">Polls</strong>.</h3>
     <form class="row search-bar" method="get">
-            <div class="input-field col" style="width: 80%; margin-right: auto;">
-                <a href="." class="prefix" style="right: 0; transform: translateY(-10px)"><i class="material-icons">clear</i></a>
+            <div class="input-field col with-prefix">
+                <a href="." class="prefix"><i class="material-icons">clear</i></a>
                 <input style="width: 94%" id="icon_prefix" type="text" autofocus name="search" value="{{search_term}}">
                 <label for="icon_prefix">Search</label>
             </div>
@@ -23,7 +23,7 @@
             <div class="card col c{{poll.color_index}}-card" style="width: 100%">
                 <div class="card-header">
                     <h5>{{poll.question}}</h5>
-                    <strong>{{poll.votes}} Vote{{poll.vote|pluralize}}</strong>
+                    <strong>{{poll.votes}} Vote{{poll.votes|pluralize}}</strong>
                 </div>
                 <div class="tag-holder">
                     {% for tag in poll.tags %}

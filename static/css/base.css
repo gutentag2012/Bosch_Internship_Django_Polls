@@ -1,4 +1,3 @@
-
 * {
     color: var(--color-on-background);
 }
@@ -13,6 +12,10 @@ body {
 
 nav {
     background-color: var(--color-surface);
+}
+
+label {
+    pointer-events: none;
 }
 
 .brand-logo img {
@@ -153,6 +156,31 @@ nav {
     align-items: center;
     flex-direction: row;
     justify-content: center;
+}
+
+.answer_holder {
+    margin-bottom: var(--space-extreme);
+}
+
+.input-field.with-prefix {
+    width: 80%;
+    margin-right: auto;
+}
+.input-field.with-prefix.full-width {
+    width: 100%;
+}
+.prefix {
+    cursor: pointer;
+}
+.input-field.with-prefix .prefix {
+    right: 0;
+    transform: translateY(-10px);
+}
+
+.submit-buttons {
+    display: flex;
+    flex-direction: row-reverse;
+    gap: var(--space-large);
 }
 
 .btn-extended span {

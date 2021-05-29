@@ -4,7 +4,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import UserCreationForm
 from .forms import PollForm
 from .models import Poll, Tag
-from datetime import datetime
+from datetime import datetime, date
 
 
 def log_in_view(request):
@@ -66,7 +66,8 @@ def home_page_view(request):
     # Retrieves the search term from the request or a default empty string
     search_term = request.GET.get("search") or ""
 
-    # Filters the poll objects after the search term and whether they are available or not (Search respects both the name and the tags)
+    # Filters the poll objects after the search term and whether they are available or not
+    # (Search respects both the name and the tags)
     poll_objs = Poll.objects.filter(Q(question__icontains=search_term) | Q(tag__name__icontains=search_term)).distinct()
     poll_objs = filter(lambda e: e.is_still_available(), poll_objs)
 
@@ -145,42 +146,84 @@ def single_poll_view(request, poll_id):
     return render(request, "single_poll.html", context)
 
 
+def get_json_tags_from_post(request):
+    """This helper method maps all chips of tags from a POST request into a list of their values."""
+    result = []
+
+    for key in request.POST:
+        # If the key inside of the POST request starts with "chip" it is a valid tag-chip
+        if key.startswith("chip"):
+            # Add the corresponding value to the result
+            result.append({"tag": request.POST.get(key)})
+
+    return result
+
+
+def find_or_create_tag(tag):
+    """This helper method takes a tag name and either returns the saved tag in the database
+    or if there is none creates a new tag and returns this one."""
+
+    try:
+        # Tries to retrieve the tag from the database
+        return Tag.objects.get(name=tag)
+    except Tag.DoesNotExist:
+        # If the tag could not be found, a new one is created
+        return Tag.objects.create(
+            name=tag,
+            color=Tag.objects.all().count()
+        )
+
+
+def add_answers_to_poll(request, poll):
+    """This helper method gets all answers from a POST request and adds every answer with an index greater than 3
+    to the polls answers. The index must me greater than 3 because the first three answers are already added."""
+
+    for key in request:
+        # If the key does not contain "answer_" then it is no answer and the loop can continue
+        if not key.startswith("answer_"):
+            continue
+
+        # Split by the underscore to get the right side that represents the index
+        index = key.split("_")[1]
+
+        # If the index is smaller or equal to 3 the loop can continue
+        if int(index) <= 3:
+            continue
+
+        # Add the current answer to the answerset of the poll
+        poll.pollanswer_set.create(answer=request.get(key))
+
+
 def create_poll_view(request):
-    context = {}
-    form = PollForm()
-    context["form"] = form
+    """The view that creates new polls for the system."""
 
-    tag_objs = [e[0] for e in Tag.objects.values_list("name")]
-    context["all_tags"] = tag_objs
+    # Create the starting poll form for the GET request
+    form = PollForm({"creator": request.user, "start_date": date.today()})
 
-    context["tags"] = []
-    for tag in request.POST:
-        if tag.startswith("chip"):
-            context["tags"].append({"tag": request.POST.get(tag)})
+    # Create the initial context with the form, all tags and the tags from a potential POST request
+    context = {
+        "form": form,
+        "all_tags": [e[0] for e in Tag.objects.values_list("name")],
+        "tags": get_json_tags_from_post(request)
+    }
 
     if request.method == "POST":
-        form = PollForm(request.POST)
-        if form.is_valid():
-            start_date = datetime.strptime(request.POST.get("start_date"), "%b %d, %Y").date()
-            end_date = None
-            if request.POST.get("end_date"):
-                end_date = datetime.strptime(request.POST.get("end_date"), "%b %d, %Y").date()
-            var = Poll.objects.create(**{
-                "creator": request.user,
-                "question": request.POST.get("question"),
-                "start_date": start_date,
-                "end_date": end_date,
-            })
+        # Saves the form with the posted values in the context
+        context["form"] = PollForm(request.POST)
+
+        if context["form"].is_valid():
+            # If the form has valid data it is saved together with the first three answers
+            poll = context["form"].save()
+
+            # !Important Note: The tags still have to be added afterwards together with possible additional answers
             for tag in context["tags"]:
-                tag_to_add = None
-                try:
-                    tag_to_add = Tag.objects.get(name=tag["tag"])
-                except Tag.DoesNotExist:
-                    tag_to_add = Tag.objects.create(**{
-                        "name": tag["tag"],
-                        "color": Tag.objects.all().count()
-                    })
-                var.tag_set.add(tag_to_add)
+                # Adds all tags inside of the context to the polls tag set
+                poll.tag_set.add(find_or_create_tag(tag["tag"]))
+
+            # Adding all remaining answers form the POST request to the polls answers
+            add_answers_to_poll(request.POST, poll)
+
+            # Return to the homepage
             return redirect("home")
 
     return render(request, "create_poll.html", context)

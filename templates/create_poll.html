@@ -8,6 +8,8 @@
     <form method="post">
         {% csrf_token %}
 
+        {{form.creator.as_hidden}}
+
         <div class="input-field  col">
             {{ form.question }}
             <span class="helper-text" data-error="wrong" data-success="right">
@@ -29,82 +31,63 @@
             <span class="helper-text" data-error="wrong" data-success="right">
                 {{form.end_date.errors}}
             </span>
-            <label for="{{ form.end_date.id_for_label }}" onload="console.log('loaded')">End Date</label>
+            <label for="{{ form.end_date.id_for_label }}">End Date</label>
         </div>
 
         <div class="chips">
         </div>
 
         <script>
-            let test_function = () => console.log("Not initialized!")
+            const active_tags_from_django = '{{ tags|escapejs }}'.replaceAll("\'", "\"");
+            const json_tags = JSON.parse(active_tags_from_django)
 
-            document.addEventListener('DOMContentLoaded', () => {
-                const [chip_holder] = document.getElementsByClassName("chips")
-                let chip_count = 0;
+            const all_tags_from_django = '{{ all_tags|escapejs }}'.replaceAll("\'", "\"");
+            const all_tags = JSON.parse(all_tags_from_django).reduce((acc, e) => {
+                acc[e] = null
+                return acc
+            }, {})
 
-                const django_tags = '{{ tags|escapejs }}'.replaceAll("\'", "\"");
-                const json_tags = JSON.parse(django_tags)
-
-                const django_all_tags = '{{ all_tags|escapejs }}'.replaceAll("\'", "\"");
-                const json_all_tags = JSON.parse(django_all_tags)
-                const all_tags = json_all_tags.reduce((acc, e) => {
-                    acc[e] = null
-                    return acc
-                }, {})
-
-                const elems = document.querySelectorAll('.chips');
-                const [instance] = M.Chips.init(elems, {
-                    autocompleteOptions: {
-                        data: all_tags,
-                        limit: Infinity,
-                        minLength: 1
-                    },
-                    onChipAdd: (input, chip) => {
-                        chip_count++;
-                        const value = chip.innerText.split("\n")[0]
-                        const hidden_input = document.createElement("input")
-                        hidden_input.setAttribute("type", "hidden")
-                        hidden_input.setAttribute("name", `chip-${chip_holder.childElementCount}`)
-                        hidden_input.setAttribute("value", `${value}`)
-                        chip.appendChild(hidden_input)
-                    },
-                    onChipDelete: () => {
-                        chip_count--;
-                    }
-                });
-
-                for (let key in json_tags) {
-                    instance.addChip(json_tags[key])
-                }
-
-                const [create_input] = chip_holder.getElementsByClassName("input")
-                const label = document.createElement("label")
-                label.setAttribute("for", create_input.getAttribute("id"))
-                label.innerText = "Tags"
-                chip_holder.appendChild(label)
-                create_input.addEventListener("focus", () => {
-                    label.setAttribute("class", "active")
-                })
-                create_input.addEventListener("blur", () => {
-                    if (chip_count === 0 && !create_input.value)
-                        label.setAttribute("class", "")
-                })
-                if (chip_count > 0) {
-                    label.setAttribute("class", "active")
-                }
-
-                test_function = () => {
-                    if(create_input.value) {
-                        instance.addChip({tag: create_input.value})
-                        create_input.value = ""
-                    }
-                }
-            });
+            let create_final_chip;
         </script>
-        <a href="{% url 'home' %}" class="waves-effect waves-primary btn-flat">Cancel</a>
-        <button onclick="test_function()" type="submit" name="submit" value="submit"
-                class="waves-effect waves-light btn primary">Submit
-        </button>
+        <script src="{% static '/js/create_answer_input.js' %}"></script>
+        <script src="{% static '/js/initialize_chips.js' %}"></script>
+
+        <div class="answer_holder">
+            <h4>Answers</h4>
+            <div class="input-field col">
+                {{form.answer_1}}
+            <span class="helper-text" data-error="wrong" data-success="right">
+                {{form.answer_1.errors}}
+            </span>
+                <label for="{{ form.answer_1.id_for_label }}">{{ form.answer_1.label }}</label>
+            </div>
+            <div class="input-field col">
+                {{form.answer_2}}
+            <span class="helper-text" data-error="wrong" data-success="right">
+                {{form.answer_2.errors}}
+            </span>
+                <label for="{{ form.answer_2.id_for_label }}">{{ form.answer_2.label }}</label>
+            </div>
+            <div class="input-field col">
+                {{form.answer_3}}
+            <span class="helper-text" data-error="wrong" data-success="right">
+                {{form.answer_3.errors}}
+            </span>
+                <label for="{{ form.answer_3.id_for_label }}">{{ form.answer_3.label }}</label>
+            </div>
+            <div id="new-answers">
+            </div>
+            <button class="waves-effect waves-light btn primary" style="margin-left: auto" type="button"
+                    onclick="add_input_field()">Add
+            </button>
+        </div>
+
+        <div class="submit-buttons">
+            <button onclick="create_final_chip()" type="submit" name="submit" value="submit"
+                    class="waves-effect waves-light btn primary">Submit
+            </button>
+            <a href="{% url 'home' %}" class="waves-effect waves-primary btn-flat">Cancel</a>
+        </div>
     </form>
 </div>
 
