@@ -4,7 +4,7 @@ from django.db.models import Q
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import UserCreationForm
 from .forms import PollForm
-from .models import Poll, Tag
+from .models import Poll, Tag, PollAnswer
 from datetime import date
 
 
@@ -125,8 +125,12 @@ def single_poll_view(request, poll_id):
             # If there was a vote in the database add it to the view context
             vote = user_answer.id
         elif vote is not None:
-            # Add the vote to the database
-            poll.pollanswer_set.get(pk=vote).user_votes.add(request.user)
+            try:
+                # Add the vote to the database
+                poll.pollanswer_set.get(pk=vote).user_votes.add(request.user)
+            except PollAnswer.DoesNotExist:
+                # A wrong answer key is posted, the vote is voided
+                vote = None
 
     # If there is a vote a boolean is entered into the context and the number of votes
     context["voted"] = True if vote else False
@@ -232,8 +236,12 @@ def create_poll_view(request):
 
         # I the form was not valid, the other poll answers (the ones after the first three)
         # still have to be added to the context
-        for_other_answers_in_poll(request.POST, lambda answer, key: context["answers"].append({"answer": answer, "key": key}))
-        print(context["answers"])
+        for_other_answers_in_poll(request.POST,
+                                  lambda answer, key: context["answers"].append({"answer": answer, "key": key}))
+
+    if not request.user.is_authenticated:
+        context["is_error"] = True
+        context["msg_error"] = "You need to be logged in in order to create a poll!"
 
     return render(request, "create_poll.html", context)
 
@@ -244,3 +252,15 @@ class PollDeleteView(DeleteView):
 
     def get_success_url(self):
         return reverse("home")
+
+    def get(self, request, **kwargs):
+        if request.user.is_authenticated:
+            return super().get(request, kwargs=kwargs)
+        else:
+            return redirect(".")
+
+    def post(self, request, **kwargs):
+        if request.user.is_authenticated:
+            return super().post(request, kwargs=kwargs)
+        else:
+            return redirect(".")
