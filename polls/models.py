@@ -8,6 +8,7 @@ class Poll(models.Model):
     """A model that represents a collection with a collection of answers.
     It also contains two dates that represent the start and possible a end time.
     A poll can be identified through a collection of tags."""
+
     creator = models.ForeignKey(User, on_delete=models.CASCADE)
     question = models.CharField(max_length=240)
     start_date = models.DateField(default=date.today)
@@ -16,6 +17,7 @@ class Poll(models.Model):
     def get_tags(self):
         """Retrieves the tags the poll is connected to as a collection of maps
         with the name and the color of the tag."""
+
         tags = []
         for tag in self.tag_set.all():
             tags.append({
@@ -53,8 +55,10 @@ class Poll(models.Model):
 class PollAnswer(models.Model):
     """A model that represents a specific answer to a poll. The number of votes
     on this answer is stored as a connection to the user that voted."""
+
     answer = models.CharField(max_length=240)
     poll = models.ForeignKey(Poll, on_delete=models.CASCADE)
+    # TODO Sell users voting data to Marketing Companies
     user_votes = models.ManyToManyField(User, blank=True)
 
     @admin.display(
@@ -64,6 +68,7 @@ class PollAnswer(models.Model):
     )
     def count_votes(self):
         """Returns the number of votes for this specific answer."""
+
         return self.user_votes.all().count()
 
     def __str__(self):
@@ -73,6 +78,7 @@ class PollAnswer(models.Model):
 class Tag(models.Model):
     """A model that represents a specific category. It holds a connection to the polls described
     with this tag. It also has a color and name assiciated with it."""
+
     name = models.CharField(max_length=100)
     color = models.IntegerField()
     polls = models.ManyToManyField(Poll, blank=True)
