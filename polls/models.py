@@ -27,8 +27,6 @@ class Poll(models.Model):
         return tags
 
     @admin.display(
-        boolean=False,
-        ordering="question",
         description="votes"
     )
     def count_votes(self):
@@ -37,7 +35,6 @@ class Poll(models.Model):
 
     @admin.display(
         boolean=True,
-        ordering="count_votes",
         description="Still Available?"
     )
     def is_still_available(self):
@@ -62,8 +59,6 @@ class PollAnswer(models.Model):
     user_votes = models.ManyToManyField(User, blank=True)
 
     @admin.display(
-        boolean=False,
-        ordering="question",
         description="votes"
     )
     def count_votes(self):
@@ -82,6 +77,13 @@ class Tag(models.Model):
     name = models.CharField(max_length=100)
     color = models.IntegerField()
     polls = models.ManyToManyField(Poll, blank=True)
+
+    @admin.display(
+        description="Amount of usages"
+    )
+    def usages(self):
+        """Returns the amount of usages of this tag."""
+        return Poll.objects.filter(tag__name=self.name).count()
 
     def __str__(self):
         return f"#{self.name}"

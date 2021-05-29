@@ -25,7 +25,12 @@ class AnswerAdmin(admin.ModelAdmin):
     list_display = ('answer', 'count_votes', 'poll')
 
 
+class TagAdmin(admin.ModelAdmin):
+    """Constructs the displayed version of a PollAnswer for the admin pannel"""
+    list_display = ('name', 'usages')
+
+
 # Registers the models to be edited through the admin panel
-admin.site.register(Tag)
+admin.site.register(Tag, TagAdmin)
 admin.site.register(PollAnswer, AnswerAdmin)
 admin.site.register(Poll, PollAdmin)
