@@ -1,10 +1,11 @@
-from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import render, get_object_or_404, redirect, reverse
+from django.views.generic.edit import DeleteView
 from django.db.models import Q
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import UserCreationForm
 from .forms import PollForm
 from .models import Poll, Tag
-from datetime import datetime, date
+from datetime import date
 
 
 def log_in_view(request):
@@ -100,6 +101,7 @@ def single_poll_view(request, poll_id):
     # Creates the inital context
     context = {
         "poll": {
+            "id": poll.id,
             "question": poll.question,
             "username": poll.creator.username,
             "tags": poll.get_tags(),
@@ -107,7 +109,8 @@ def single_poll_view(request, poll_id):
             "answers": []
         },
         "is_error": False,
-        "msg_error": ""
+        "msg_error": "",
+        "is_creator": request.user == poll.creator
     }
 
     if not request.user.is_authenticated:
@@ -174,8 +177,8 @@ def find_or_create_tag(tag):
         )
 
 
-def add_answers_to_poll(request, poll):
-    """This helper method gets all answers from a POST request and adds every answer with an index greater than 3
+def for_other_answers_in_poll(request, method):
+    """This helper method gets all answers from a POST request with an index greater than 3 and executes a method
     to the polls answers. The index must me greater than 3 because the first three answers are already added."""
 
     for key in request:
@@ -190,21 +193,22 @@ def add_answers_to_poll(request, poll):
         if int(index) <= 3:
             continue
 
-        # Add the current answer to the answerset of the poll
-        poll.pollanswer_set.create(answer=request.get(key))
+        # Execute the method on the current answer
+        method(request.get(key), index)
 
 
 def create_poll_view(request):
     """The view that creates new polls for the system."""
 
     # Create the starting poll form for the GET request
-    form = PollForm({"creator": request.user, "start_date": date.today()})
+    form = PollForm(initial={"creator": request.user, "start_date": date.today()})
 
     # Create the initial context with the form, all tags and the tags from a potential POST request
     context = {
         "form": form,
         "all_tags": [e[0] for e in Tag.objects.values_list("name")],
-        "tags": get_json_tags_from_post(request)
+        "tags": get_json_tags_from_post(request),
+        "answers": []
     }
 
     if request.method == "POST":
@@ -221,9 +225,22 @@ def create_poll_view(request):
                 poll.tag_set.add(find_or_create_tag(tag["tag"]))
 
             # Adding all remaining answers form the POST request to the polls answers
-            add_answers_to_poll(request.POST, poll)
+            for_other_answers_in_poll(request.POST, lambda answer, key: poll.pollanswer_set.create(answer=answer))
 
             # Return to the homepage
             return redirect("home")
 
+        # I the form was not valid, the other poll answers (the ones after the first three)
+        # still have to be added to the context
+        for_other_answers_in_poll(request.POST, lambda answer, key: context["answers"].append({"answer": answer, "key": key}))
+        print(context["answers"])
+
     return render(request, "create_poll.html", context)
+
+
+class PollDeleteView(DeleteView):
+    model = Poll
+    template_name = "delete_poll.html"
+
+    def get_success_url(self):
+        return reverse("home")

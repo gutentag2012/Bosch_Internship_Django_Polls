@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block content %}
+
+<div class="container-login card">
+    <h3>Are you <strong class="text-primary">sure</strong>?</h3>
+    <form method="post">
+        {% csrf_token %}
+
+        <p>That you want to delete the post:</p>
+        <h5>{{ object.question }}</h5>
+        <p>It has currently: <strong><i>{{object.count_votes}}</i></strong> Vote{{object.count_votes|pluralize}}</p>
+
+        <div class="submit-buttons">
+            <button type="submit" name="submit" value="Yes" class="waves-effect waves-light btn primary">Delete</button>
+            <a href="{% url 'polls' poll.id %}" class="waves-effect waves-primary btn-flat">Cancel</a>
+        </div>
+    </form>
+</div>
+
+<script src="{% static '/js/hide_fab.js' %}"></script>
+{% endblock %}

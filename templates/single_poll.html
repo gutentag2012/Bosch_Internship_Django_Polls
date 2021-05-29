@@ -16,10 +16,18 @@
             <h3>{{poll.question}}</h3>
             <p>by {{poll.username}} from {{poll.start_date}}</p>
         </div>
-        <a class="col waves-effect waves-light btn-flat center-row" href="{% url 'home' %}">
-            <i class="material-icons">keyboard_arrow_left</i>
-            Back
-        </a>
+        <div class="controls">
+            <a class="col waves-effect waves-light btn-flat center-row" href="{% url 'home' %}">
+                <i class="material-icons">keyboard_arrow_left</i>
+                Back
+            </a>
+            {% if is_creator %}
+            <a class="col waves-effect waves-light btn primary center-row" href="{% url 'delete-poll' poll.id %}">
+                Remove
+                <i class="material-icons right">delete</i>
+            </a>
+            {% endif %}
+        </div>
     </form>
     <div class="row">
         <form id="answer_form" method="post">

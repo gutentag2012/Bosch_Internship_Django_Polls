@@ -56,26 +56,33 @@
             <h4>Answers</h4>
             <div class="input-field col">
                 {{form.answer_1}}
-            <span class="helper-text" data-error="wrong" data-success="right">
-                {{form.answer_1.errors}}
-            </span>
+                <span class="helper-text" data-error="wrong" data-success="right">
+                    {{form.answer_1.errors}}
+                </span>
                 <label for="{{ form.answer_1.id_for_label }}">{{ form.answer_1.label }}</label>
             </div>
             <div class="input-field col">
                 {{form.answer_2}}
-            <span class="helper-text" data-error="wrong" data-success="right">
-                {{form.answer_2.errors}}
-            </span>
+                <span class="helper-text" data-error="wrong" data-success="right">
+                    {{form.answer_2.errors}}
+                </span>
                 <label for="{{ form.answer_2.id_for_label }}">{{ form.answer_2.label }}</label>
             </div>
             <div class="input-field col">
                 {{form.answer_3}}
-            <span class="helper-text" data-error="wrong" data-success="right">
-                {{form.answer_3.errors}}
-            </span>
+                <span class="helper-text" data-error="wrong" data-success="right">
+                    {{form.answer_3.errors}}
+                </span>
                 <label for="{{ form.answer_3.id_for_label }}">{{ form.answer_3.label }}</label>
             </div>
             <div id="new-answers">
+                {% for answer in answers %}
+                <div class="input-field col with-prefix full-width" id="parent_{{answer.key}}">
+                    <span class="prefix" onclick="remove_input_field(`parent_{{answer.key}}`)"><i class="material-icons">clear</i></span>
+                    <input type="text" name="answer_{{answer.key}}" id="answer_{{answer.key}}" value="{{answer.answer}}">
+                    <label for="{{ answer.key }}">Answer {{ answer.key }}</label>
+                </div>
+                {% endfor %}
             </div>
             <button class="waves-effect waves-light btn primary" style="margin-left: auto" type="button"
                     onclick="add_input_field()">Add

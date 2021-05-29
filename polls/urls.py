@@ -12,4 +12,6 @@ urlpatterns = [
     path('signup/', views.sign_up_view, name='signup'),
     # The creation page for a new poll
     path('create-poll/', views.create_poll_view, name='create-poll'),
+    # The deletion confirmation page for a poll
+    path('polls/<int:pk>/delete', views.PollDeleteView.as_view(), name='delete-poll'),
 ]
