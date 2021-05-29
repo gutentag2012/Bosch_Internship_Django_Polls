@@ -3,7 +3,6 @@ from django.urls import reverse
 from polls.models import Poll, PollAnswer, Tag
 from django.contrib.auth.models import User
 from datetime import date
-import json
 
 
 class BaseViewsTestCase(TestCase):
