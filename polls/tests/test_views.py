@@ -40,3 +40,6 @@ class PollsViewsTestCase(TestCase):
     def test_delete_GET(self):
         response = self.client.get(reverse("delete-poll", args=[1]))
         self.simple_GET_response_test(response, "delete_poll.html")
+
+    def test_login_POST(self):
+        pass
